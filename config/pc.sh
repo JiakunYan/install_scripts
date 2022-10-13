@@ -2,6 +2,17 @@
 export INSTALL_ROOT=~/opt
 export GCC_VERSION=9.4.0-release
 export CMAKE_VERSION=3.23.4-release
+export NINJA_VERSION
 export HDF5_VERSION=1.13.2-release
 export JEMALLOC_VERSION=5.3.0-release
+export LIBFABRIC_VERSION=1.15.1-debug
+export OPENMPI_VERSION=4.0.4-release
+export BOOST_VERSION=1.80.0-release
+export Vc_VERSION=1.4.3-release
+export PAPI_VERSION=6.0.0-release
+export LCI_VERSION=local-debug
+export LCI_DIR_SRC=~/workspace/LC
+export HPX_DIR_SRC=~/workspace/hpx
+export HAS_PMI=OFF
 export PARALLEL_BUILD=4
+export LCI_BACKEND=ofi

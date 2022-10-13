@@ -6,3 +6,7 @@ openmpi 4.0.4 release
 hdf5 1.13.2 release
 silo 4.11 release
 boost 1.80.0 release
+papi 6.0.0 release
+lci local debug
+hpx hpx-lci debug
+ninja 1.11.1 release
