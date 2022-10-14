@@ -11,7 +11,7 @@ export GIS_DEFAULT_MODULES=(
     "openmpi/4.1.4-release"
     "Vc/1.4.3-release"
     "papi/6.0.0-release"
-    "hdf5/1.13.2-release"
+    "hdf5/1.8.12-release"
     "silo/4.11-release"
     "lci/local-debug"
     "hpx/local-debug"

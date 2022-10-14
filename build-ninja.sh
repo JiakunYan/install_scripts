@@ -3,7 +3,7 @@
 source include/common.sh
 
 export GIS_PACKAGE_NAME_MAJOR=ninja
-setup_env
+setup_env "$@"
 
 export GIS_DOWNLOAD_URL="https://github.com/ninja-build/ninja/releases/download/v${GIS_PACKAGE_VERSION}/ninja-linux.zip"
 mkdir -p ${GIS_SRC_PATH}

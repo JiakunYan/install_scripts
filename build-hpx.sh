@@ -15,7 +15,7 @@ export GIS_PACKAGE_DEPS=(
         "lci/${LCI_VERSION}"
     )
 export GIS_PACKAGE_NAME_MAJOR=hpx
-setup_env
+setup_env "$@"
 
 export GIS_DOWNLOAD_URL="https://github.com/uiuc-hpc/hpx.git"
 wget_url

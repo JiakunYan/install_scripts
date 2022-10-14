@@ -5,7 +5,7 @@ source include/common.sh
 : ${GCC_VERSION:?}
 export GIS_PACKAGE_DEPS=("gcc/${GCC_VERSION}")
 export GIS_PACKAGE_NAME_MAJOR=boost
-setup_env
+setup_env "$@"
 
 export GIS_DOWNLOAD_URL="https://boostorg.jfrog.io/artifactory/main/release/${GIS_PACKAGE_VERSION}/source/boost_${GIS_PACKAGE_VERSION//./_}.tar.gz"
 wget_url

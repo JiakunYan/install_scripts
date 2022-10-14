@@ -2,10 +2,9 @@
 
 source include/common.sh
 
-: ${GCC_VERSION:?} ${CMAKE_VERSION:?}
-export GIS_PACKAGE_DEPS=("gcc/${GCC_VERSION}" "cmake/${CMAKE_VERSION}")
+export GIS_PACKAGE_DEPS=("gcc" "cmake")
 export GIS_PACKAGE_NAME_MAJOR=hdf5
-setup_env
+setup_env "$@"
 
 export GIS_DOWNLOAD_URL="https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-${GIS_PACKAGE_VERSION//./_}.tar.gz"
 wget_url

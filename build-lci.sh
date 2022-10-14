@@ -10,7 +10,7 @@ export GIS_PACKAGE_DEPS=(
         "openmpi/${OPENMPI_VERSION}"
     )
 export GIS_PACKAGE_NAME_MAJOR=lci
-setup_env
+setup_env "$@"
 
 export GIS_DOWNLOAD_URL="git@github.com:uiuc-hpc/LC.git"
 wget_url

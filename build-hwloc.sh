@@ -7,7 +7,7 @@ source include/common.sh
 : ${GCC_VERSION:?}
 export GIS_PACKAGE_DEPS=("gcc/${GCC_VERSION}")
 export GIS_PACKAGE_NAME_MAJOR=hwloc
-setup_env
+setup_env "$@"
 
 export GIS_DOWNLOAD_URL="https://download.open-mpi.org/release/hwloc/v${GIS_PACKAGE_VERSION%.*}/hwloc-${GIS_PACKAGE_VERSION}.tar.gz"
 wget_url

@@ -7,7 +7,7 @@ export GIS_PACKAGE_DEPS=(
         "gcc/${GCC_VERSION}"
     )
 export GIS_PACKAGE_NAME_MAJOR=papi
-setup_env
+setup_env "$@"
 
 export GIS_DOWNLOAD_URL="http://icl.utk.edu/projects/papi/downloads/papi-${GIS_PACKAGE_VERSION}.tar.gz"
 wget_url

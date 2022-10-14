@@ -5,7 +5,7 @@ source include/common.sh
 : ${GCC_VERSION:?}
 export GIS_PACKAGE_DEPS=("gcc/${GCC_VERSION}")
 export GIS_PACKAGE_NAME_MAJOR=cmake
-setup_env
+setup_env "$@"
 
 export GIS_DOWNLOAD_URL="https://github.com/Kitware/CMake/releases/download/v${GIS_PACKAGE_VERSION}/cmake-${GIS_PACKAGE_VERSION}.tar.gz"
 wget_url

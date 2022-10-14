@@ -2,15 +2,9 @@
 
 source include/common.sh
 
-: ${GCC_VERSION:?} ${HPX_VERSION:?}
-export GIS_PACKAGE_DEPS=(
-        "gcc/${GCC_VERSION}"
-        "hpx/${HPX_VERSION}"
-        "silo/${SILO_VERSION}"
-        "cppuddle/${CPPUDDLE_VERSION}"
-    )
+export GIS_PACKAGE_DEPS=("gcc" "hpx" "silo" "cppuddle")
 export GIS_PACKAGE_NAME_MAJOR=octotiger
-setup_env
+setup_env "$@"
 
 export GIS_DOWNLOAD_URL="https://github.com/JiakunYan/octotiger.git"
 wget_url

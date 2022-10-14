@@ -2,10 +2,9 @@
 
 source include/common.sh
 
-: ${GCC_VERSION:?} ${HPX_VERSION:?}
-export GIS_PACKAGE_DEPS=("gcc/${GCC_VERSION}" "hpx/${HPX_VERSION}")
+export GIS_PACKAGE_DEPS=("hpx")
 export GIS_PACKAGE_NAME_MAJOR=cppuddle
-setup_env
+setup_env "$@"
 
 export GIS_DOWNLOAD_URL="https://github.com/JiakunYan/CPPuddle.git"
 wget_url

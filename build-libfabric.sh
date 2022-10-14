@@ -5,7 +5,7 @@ source include/common.sh
 : ${GCC_VERSION:?}
 export GIS_PACKAGE_DEPS=("gcc/${GCC_VERSION}")
 export GIS_PACKAGE_NAME_MAJOR=libfabric
-setup_env
+setup_env "$@"
 
 export GIS_DOWNLOAD_URL="https://github.com/ofiwg/libfabric/releases/download/v${GIS_PACKAGE_VERSION}/libfabric-${GIS_PACKAGE_VERSION}.tar.bz2"
 wget_url

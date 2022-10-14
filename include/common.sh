@@ -1,6 +1,23 @@
 set -o pipefail
 set -ex
 
+parse_full_dep_names() {
+  GIS_PACKAGE_DEPS_FULL_NAME=""
+  if [ "${GIS_PACKAGE_DEPS}" != "" ]; then
+    for DEP in "${GIS_PACKAGE_DEPS[@]}"; do
+      DEP_MAJOR=${DEP%/*}
+      DEP_MINOR=${DEP#*/}
+      if [ ${DEP_MINOR} == ${DEP} ]; then
+        DEP_MINOR_P=GIS_${DEP_MINOR}_DEFAULT_VERSION
+        DEP_MINOR=${!DEP_MINOR_P}
+      fi
+      : ${DEP_MINOR:?}
+      GIS_PACKAGE_DEPS_FULL_NAME="${GIS_PACKAGE_DEPS_FULL_NAME} ${DEP_MAJOR}/${DEP_MINOR}"
+    done
+  fi
+  export GIS_PACKAGE_DEPS_FULL_NAME
+}
+
 setup_env() {
   if test $# -eq 1; then
     export GIS_PACKAGE_VERSION=${1%-*}
@@ -19,7 +36,7 @@ setup_env() {
   GIS_SCRIPT_ROOT=$(realpath ".")
   GIS_INSTALL_ROOT=$(realpath "${GIS_INSTALL_ROOT}")
   GIS_MODULE_ROOT=$(realpath "${GIS_MODULE_ROOT:-${GIS_INSTALL_ROOT}/modulefiles}")
-  GIS_SRC_PATH=$(realpath "${GIS_SRC_PATH:-source/${GIS_PACKAGE_NAME_MAJOR}}")
+  GIS_SRC_PATH=$(realpath "${GIS_SRC_PATH:-source/${GIS_PACKAGE_NAME_MAJOR}-${GIS_PACKAGE_VERSION}}")
 
   GIS_PACKAGE_NAME_MINOR=${GIS_PACKAGE_VERSION}-${GIS_BUILD_TYPE}
   GIS_INSTALL_PATH=${GIS_INSTALL_ROOT}/${GIS_PACKAGE_NAME_MAJOR}/${GIS_PACKAGE_NAME_MINOR}
@@ -27,18 +44,14 @@ setup_env() {
   GIS_MODULE_FILE_PATH=${GIS_MODULE_ROOT}/${GIS_PACKAGE_NAME_MAJOR}/${GIS_PACKAGE_NAME_MINOR}
 
   export GIS_SCRIPT_ROOT GIS_SRC_PATH GIS_BUILD_PATH GIS_INSTALL_PATH GIS_MODULE_FILE_PATH GIS_PACKAGE_NAME_MINOR
+  export CFLAGS=-fPIC
+  export CXXFLAGS=-fPIC
 
+  parse_full_dep_names
   module purge
-  if [ "${GIS_PACKAGE_DEPS}" != "" ]; then
-    for DEP in "${GIS_PACKAGE_DEPS[@]}"; do
-      DEP_MAJOR=${DEP%/*}
-      DEP_MINOR=${DEP#*/}
-      if [ ${DEP_MINOR} == ${DEP} ]; then
-        DEP_MINOR_P=GIS_${DEP_MINOR}_DEFAULT_VERSION
-        DEP_MINOR=${!DEP_MINOR_P}
-      fi
-      : ${DEP_MINOR:?}
-      module load ${DEP_MAJOR}/${DEP_MINOR}
+  if [ "${GIS_PACKAGE_DEPS_FULL_NAME}" != "" ]; then
+    for DEP in "${GIS_PACKAGE_DEPS_FULL_NAME[@]}"; do
+      module load ${DEP}
     done
   fi
 }
@@ -58,12 +71,15 @@ wget_url() {
 }
 
 run_cmake_configure() {
+  mkdir -p ${GIS_BUILD_PATH}
   CMAKE_BASIC_ARGS="
     -H${GIS_SRC_PATH} \
     -B${GIS_BUILD_PATH} \
     -DCMAKE_INSTALL_PREFIX=${GIS_INSTALL_PATH} \
     -DCMAKE_C_COMPILER=${CC} \
     -DCMAKE_CXX_COMPILER=${CXX} \
+    -DCMAKE_C_FLAGS=${CFLAGS} \
+    -DCMAKE_CXX_FLAGS=${CXXFLAGS} \
     -DCMAKE_BUILD_TYPE=${GIS_BUILD_TYPE}
     -DCMAKE_VERBOSE_MAKEFILE=ON"
   cmake ${CMAKE_BASIC_ARGS} ${GIS_CMAKE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
@@ -94,10 +110,10 @@ run_configure() {
   mkdir -p ${GIS_BUILD_PATH}
   cd ${GIS_BUILD_PATH} || exit 1
   if [ ${GIS_BUILD_TYPE} == "debug" ]; then
-     CC=${CC} CXX=${CXX} CPPFLAGS=-DDEBUG CFLAGS="-g -O0" ${GIS_CONFIGURE_PATH}/configure --prefix=${GIS_INSTALL_PATH} --enable-debug \
+     CC=${CC} CXX=${CXX} CPPFLAGS="${CPPFLAGS} -DDEBUG" CFLAGS="${CFLAGS} -g -O0" CXXFLAGS="${CXXFLAGS} -g -O0" ${GIS_CONFIGURE_PATH}/configure --prefix=${GIS_INSTALL_PATH} --enable-debug \
                           ${GIS_CONFIGURE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
   elif [ ${GIS_BUILD_TYPE} == "release" ]; then
-     CC=${CC} CXX=${CXX} CPPFLAGS=-DNDEBUG CFLAGS="-O3" ${GIS_CONFIGURE_PATH}/configure --prefix=${GIS_INSTALL_PATH} \
+     CC=${CC} CXX=${CXX} CPPFLAGS="${CPPFLAGS} -DNDEBUG" CFLAGS="${CFLAGS} -O3" CXXFLAGS="${CXXFLAGS} -O3" ${GIS_CONFIGURE_PATH}/configure --prefix=${GIS_INSTALL_PATH} \
                           ${GIS_CONFIGURE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
   else
     echo "Unrecognized GIS_BUILD_TYPE: ${GIS_BUILD_TYPE}!"
@@ -114,11 +130,11 @@ run_make() {
 
 create_module() {
   MODULE_DEPS=""
-  if [ "${GIS_PACKAGE_DEPS}" != "" ]; then
-    for dep in "${GIS_PACKAGE_DEPS[@]}"; do
+  if [ "${GIS_PACKAGE_DEPS_FULL_NAME}" != "" ]; then
+    for DEP in "${GIS_PACKAGE_DEPS_FULL_NAME[@]}"; do
       MODULE_DEPS="$MODULE_DEPS
-module load $dep
-prereq      $dep"
+module load ${DEP}
+prereq      ${DEP}"
     done
   fi
 
