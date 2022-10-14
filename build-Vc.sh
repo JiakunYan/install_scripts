@@ -2,8 +2,7 @@
 
 source include/common.sh
 
-: ${GCC_VERSION:?} ${CMAKE_VERSION:?}
-export GIS_PACKAGE_DEPS=("gcc/${GCC_VERSION}" "cmake/${CMAKE_VERSION}")
+export GIS_PACKAGE_DEPS=("gcc" "cmake")
 export GIS_PACKAGE_NAME_MAJOR=Vc
 setup_env "$@"
 

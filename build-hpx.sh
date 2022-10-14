@@ -2,18 +2,7 @@
 
 source include/common.sh
 
-: ${GCC_VERSION:?} ${CMAKE_VERSION:?}
-export GIS_PACKAGE_DEPS=(
-        "gcc/${GCC_VERSION}"
-        "cmake/${CMAKE_VERSION}"
-        "ninja/${NINJA_VERSION}"
-        "boost/${BOOST_VERSION}"
-        "openmpi/${OPENMPI_VERSION}"
-        "jemalloc/${JEMALLOC_VERSION}"
-        "Vc/${Vc_VERSION}"
-        "papi/${PAPI_VERSION}"
-        "lci/${LCI_VERSION}"
-    )
+export GIS_PACKAGE_DEPS=("gcc" "cmake" "ninja" "boost" "openmpi" "jemalloc" "Vc" "papi" "lci")
 export GIS_PACKAGE_NAME_MAJOR=hpx
 setup_env "$@"
 

@@ -2,7 +2,7 @@
 
 source include/common.sh
 
-export GIS_PACKAGE_DEPS=("gcc" "hpx" "silo" "cppuddle")
+export GIS_PACKAGE_DEPS=("gcc" "cmake" "Vc" "hpx" "silo" "cppuddle")
 export GIS_PACKAGE_NAME_MAJOR=octotiger
 setup_env "$@"
 
@@ -20,7 +20,6 @@ run_cmake_configure \
     -DOCTOTIGER_WITH_MULTIPOLE_HOST_HPX_EXECUTOR=ON \
     -DOCTOTIGER_WITH_FORCE_SCALAR_KOKKOS_SIMD=OFF \
     -DOCTOTIGER_WITH_STD_EXPERIMENTAL_SIMD=OFF \
-    -DCMAKE_BUILD_TYPE=${GIS_BUILD_TYPE} \
     -DSilo_INCLUDE_DIR=$SILO_ROOT/include \
     -DSilo_LIBRARY=$SILO_ROOT/lib/libsiloh5.a \
     -DSilo_DIR=$SILO_ROOT \

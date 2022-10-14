@@ -2,13 +2,7 @@
 
 source include/common.sh
 
-: ${GCC_VERSION:?} ${CMAKE_VERSION:?} ${LIBFABRIC_VERSION:?} ${OPENMPI_VERSION:?} ${GIS_LCI_BACKEND:?}
-export GIS_PACKAGE_DEPS=(
-        "gcc/${GCC_VERSION}"
-        "cmake/${CMAKE_VERSION}"
-        "libfabric/${LIBFABRIC_VERSION}"
-        "openmpi/${OPENMPI_VERSION}"
-    )
+export GIS_PACKAGE_DEPS=("gcc" "cmake" "libfabric" "openmpi")
 export GIS_PACKAGE_NAME_MAJOR=lci
 setup_env "$@"
 
@@ -21,6 +15,8 @@ fi
 run_cmake_configure \
     -DLCI_SERVER=${GIS_LCI_BACKEND} \
     -DLCI_PACKET_SIZE=69632 \
+    -DLCI_SERVER_NUM_PKTS=16384 \
+    -DLCI_SERVER_MAX_RCVS=1024 \
     ${DEBUG_EXTRA_ARGS}
 run_cmake_build
 

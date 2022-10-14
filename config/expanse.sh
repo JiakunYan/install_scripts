@@ -14,10 +14,10 @@ export DEFAULT_MODULES=(
     "papi/6.0.0-release"
     "hdf5/1.8.12-release"
     "silo/4.11-release"
-    "lci/local-debug"
-    "hpx/local-debug"
+    "lci/local-release"
+    "hpx/local-release"
     "cppuddle/master-release"
-    "octotiger/master-debug"
+    "octotiger/master-release"
 )
 for package in "${DEFAULT_MODULES[@]}"
 do
@@ -29,6 +29,6 @@ done
 export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
 export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
 
-export GIS_HAS_PMI=OFF
-export GIS_PARALLEL_BUILD=4
+export GIS_HAS_PMI=ON
+export GIS_PARALLEL_BUILD=16
 export GIS_LCI_BACKEND=ibv

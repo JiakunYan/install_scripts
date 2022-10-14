@@ -2,8 +2,7 @@
 
 source include/common.sh
 
-: ${GCC_VERSION:?}
-export GIS_PACKAGE_DEPS=("gcc/${GCC_VERSION}")
+export GIS_PACKAGE_DEPS=("gcc")
 export GIS_PACKAGE_NAME_MAJOR=boost
 setup_env "$@"
 
