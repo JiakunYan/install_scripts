@@ -2,18 +2,18 @@
 
 source include/common.sh
 
-export PACKAGE_NAME=ninja
+export GIS_PACKAGE_NAME_MAJOR=ninja
 setup_env
 
-export DOWNLOAD_URL="https://github.com/ninja-build/ninja/releases/download/v${PACKAGE_VERSION}/ninja-linux.zip"
-mkdir -p ${DIR_SRC}
-cd ${DIR_SRC} || exit 1
+export GIS_DOWNLOAD_URL="https://github.com/ninja-build/ninja/releases/download/v${GIS_PACKAGE_VERSION}/ninja-linux.zip"
+mkdir -p ${GIS_SRC_PATH}
+cd ${GIS_SRC_PATH} || exit 1
 wget "$DOWNLOAD_URL" -O temp.zip
 unzip temp.zip
 rm -r temp.zip
 
-mkdir -p ${DIR_INSTALL}/bin
-cp ${DIR_SRC}/ninja ${DIR_INSTALL}/bin/
+mkdir -p ${GIS_INSTALL_PATH}/bin
+cp ${GIS_SRC_PATH}/ninja ${GIS_INSTALL_PATH}/bin/
 
 cp_log
 create_module

@@ -5,20 +5,19 @@ set -ex
 source include/common.sh
 
 : ${GCC_VERSION:?}
-export PACKAGE_DEPS=("gcc/${GCC_VERSION}")
-export PACKAGE_NAME=hwloc
+export GIS_PACKAGE_DEPS=("gcc/${GCC_VERSION}")
+export GIS_PACKAGE_NAME_MAJOR=hwloc
 setup_env
 
-export DOWNLOAD_URL="https://download.open-mpi.org/release/hwloc/v${PACKAGE_VERSION%.*}/hwloc-${PACKAGE_VERSION}.tar.gz"
+export GIS_DOWNLOAD_URL="https://download.open-mpi.org/release/hwloc/v${GIS_PACKAGE_VERSION%.*}/hwloc-${GIS_PACKAGE_VERSION}.tar.gz"
 wget_url
 
-export AT_EXTRA_ARGS="--disable-opencl"
-run_configure
+run_configure --disable-opencl
 run_make
 
 cp_log
 create_module
 
 # test
-module load ${PACKAGE_NAME}/${PACKAGE_NAME_SUFFIX}
+module load ${GIS_PACKAGE_NAME_MAJOR}/${GIS_PACKAGE_NAME_MINOR}
 which lstopo-no-graphics

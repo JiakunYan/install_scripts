@@ -3,11 +3,11 @@
 source include/common.sh
 
 : ${GCC_VERSION:?} ${CMAKE_VERSION:?}
-export PACKAGE_DEPS=("gcc/${GCC_VERSION}" "cmake/${CMAKE_VERSION}")
-export PACKAGE_NAME=Vc
+export GIS_PACKAGE_DEPS=("gcc/${GCC_VERSION}" "cmake/${CMAKE_VERSION}")
+export GIS_PACKAGE_NAME_MAJOR=Vc
 setup_env
 
-export DOWNLOAD_URL="https://github.com/VcDevel/Vc/releases/download/${PACKAGE_VERSION}/Vc-${PACKAGE_VERSION}.tar.gz"
+export GIS_DOWNLOAD_URL="https://github.com/VcDevel/Vc/releases/download/${GIS_PACKAGE_VERSION}/Vc-${GIS_PACKAGE_VERSION}.tar.gz"
 wget_url
 
 run_cmake_configure

@@ -1,6 +1,6 @@
 mkdir -p source
 #!/usr/bin/env bash
-export INSTALL_ROOT=~/opt
+export GIS_INSTALL_ROOT=~/opt
 
 export DEFAULT_MODULES=(
     "gcc/10.2.0"
@@ -26,9 +26,9 @@ do
   echo "export ${major}_VERSION=${minor}"
   export ${major}_VERSION=${minor}
 done
-export LCI_DIR_SRC=~/workspace/LC
-export HPX_DIR_SRC=~/workspace/hpx
+export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
+export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
 
-export HAS_PMI=OFF
-export PARALLEL_BUILD=4
-export LCI_BACKEND=ibv
+export GIS_HAS_PMI=OFF
+export GIS_PARALLEL_BUILD=4
+export GIS_LCI_BACKEND=ibv

@@ -3,17 +3,17 @@
 source include/common.sh
 
 : ${GCC_VERSION:?}
-export PACKAGE_DEPS=(
+export GIS_PACKAGE_DEPS=(
         "gcc/${GCC_VERSION}"
     )
-export PACKAGE_NAME=papi
+export GIS_PACKAGE_NAME_MAJOR=papi
 setup_env
 
-export DOWNLOAD_URL="http://icl.utk.edu/projects/papi/downloads/papi-${PACKAGE_VERSION}.tar.gz"
+export GIS_DOWNLOAD_URL="http://icl.utk.edu/projects/papi/downloads/papi-${GIS_PACKAGE_VERSION}.tar.gz"
 wget_url
 
-export DIR_CONFIGURE=${DIR_SRC}/src
-export DIR_BUILD=${DIR_SRC}/src
+export GIS_CONFIGURE_PATH=${GIS_SRC_PATH}/src
+export GIS_BUILD_PATH=${GIS_SRC_PATH}/src
 run_configure
 run_make
 

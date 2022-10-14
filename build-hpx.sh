@@ -3,7 +3,7 @@
 source include/common.sh
 
 : ${GCC_VERSION:?} ${CMAKE_VERSION:?}
-export PACKAGE_DEPS=(
+export GIS_PACKAGE_DEPS=(
         "gcc/${GCC_VERSION}"
         "cmake/${CMAKE_VERSION}"
         "ninja/${NINJA_VERSION}"
@@ -14,10 +14,10 @@ export PACKAGE_DEPS=(
         "papi/${PAPI_VERSION}"
         "lci/${LCI_VERSION}"
     )
-export PACKAGE_NAME=hpx
+export GIS_PACKAGE_NAME_MAJOR=hpx
 setup_env
 
-export DOWNLOAD_URL="https://github.com/uiuc-hpc/hpx.git"
+export GIS_DOWNLOAD_URL="https://github.com/uiuc-hpc/hpx.git"
 wget_url
 
 run_cmake_configure \
@@ -32,7 +32,7 @@ run_cmake_configure \
     -DHPX_WITH_EXAMPLES=OFF \
     -DHPX_WITH_TESTS=OFF \
     -DHPX_WITH_PARCELPORT_MPI=ON \
-    -DHPX_WITH_PARCELPORT_LIBFABRIC=${HAS_PMI} \
+    -DHPX_WITH_PARCELPORT_LIBFABRIC=${GIS_HAS_PMI} \
     -DHPX_PARCELPORT_LIBFABRIC_PROVIDER=gni \
     -DHPX_PARCELPORT_LIBFABRIC_64K_PAGES:STRING=20 \
     -DHPX_PARCELPORT_LIBFABRIC_DEBUG_LOCKS:BOOL=OFF \

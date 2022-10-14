@@ -3,16 +3,16 @@
 source include/common.sh
 
 : ${GCC_VERSION:?} ${HPX_VERSION:?}
-export PACKAGE_DEPS=(
+export GIS_PACKAGE_DEPS=(
         "gcc/${GCC_VERSION}"
         "hpx/${HPX_VERSION}"
         "silo/${SILO_VERSION}"
         "cppuddle/${CPPUDDLE_VERSION}"
     )
-export PACKAGE_NAME=octotiger
+export GIS_PACKAGE_NAME_MAJOR=octotiger
 setup_env
 
-export DOWNLOAD_URL="https://github.com/JiakunYan/octotiger.git"
+export GIS_DOWNLOAD_URL="https://github.com/JiakunYan/octotiger.git"
 wget_url
 
 run_cmake_configure \
@@ -26,7 +26,7 @@ run_cmake_configure \
     -DOCTOTIGER_WITH_MULTIPOLE_HOST_HPX_EXECUTOR=ON \
     -DOCTOTIGER_WITH_FORCE_SCALAR_KOKKOS_SIMD=OFF \
     -DOCTOTIGER_WITH_STD_EXPERIMENTAL_SIMD=OFF \
-    -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+    -DCMAKE_BUILD_TYPE=${GIS_BUILD_TYPE} \
     -DSilo_INCLUDE_DIR=$SILO_ROOT/include \
     -DSilo_LIBRARY=$SILO_ROOT/lib/libsiloh5.a \
     -DSilo_DIR=$SILO_ROOT \

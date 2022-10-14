@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-export INSTALL_ROOT=~/opt
+export GIS_INSTALL_ROOT=~/opt
 
-export DEFAULT_MODULES=(
+export GIS_DEFAULT_MODULES=(
     "gcc/9.4.0-release"
     "cmake/3.23.4-release"
     "ninja/1.11.1-release"
@@ -18,16 +18,16 @@ export DEFAULT_MODULES=(
     "cppuddle/master-release"
     "octotiger/master-debug"
 )
-for package in "${DEFAULT_MODULES[@]}"
+for package in "${GIS_DEFAULT_MODULES[@]}"
 do
   major=${package%/*}
   minor=${package#*/}
   echo "export ${major}_VERSION=${minor}"
-  export ${major}_VERSION=${minor}
+  export GIS_${major}_DEFAULT_VERSION=${minor}
 done
-export LCI_DIR_SRC=~/workspace/LC
-export HPX_DIR_SRC=~/workspace/hpx
+export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
+export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
 
-export HAS_PMI=OFF
-export PARALLEL_BUILD=4
-export LCI_BACKEND=ofi
+export GIS_HAS_PMI=OFF
+export GIS_PARALLEL_BUILD=4
+export GIS_LCI_BACKEND=ofi
