@@ -11,8 +11,7 @@ export DOWNLOAD_URL="https://github.com/LLNL/Silo/releases/download/v${PACKAGE_V
 wget_url
 
 sed -i 's/-lhdf5/$hdf5_lib\/libhdf5.a -ldl/g' ${DIR_SRC}/configure
-export CONFIGURE_EXTRA_ARGS="--with-hdf5"
-run_configure
+run_configure --with-hdf5=${HDF5_ROOT}/include,${HDF5_ROOT}/lib
 sed -i.bak -e '866d;867d' ${DIR_BUILD}/src/silo/Makefile
 run_make
 

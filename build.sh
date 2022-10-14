@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-export PACKAGE_VERSION=$2
-export BUILD_TYPE=$3
-
-./build-${1}.sh
+for package in "$@"
+do
+    major=${package%/*}
+    minor=${package#*/}
+    if [ -f ./build-${major}.sh ]; then
+      echo "./build-${major}.sh ${minor}"
+      ./build-${major}.sh ${minor}
+    fi
+done

@@ -14,5 +14,4 @@ run_cmake_configure
 run_cmake_build
 cp_log
 
-export PACKAGE_ENV_NAME="Vc"
 create_module

@@ -2,6 +2,11 @@ set -o pipefail
 set -ex
 
 setup_env() {
+  if test $# -eq 1; then
+    export PACKAGE_VERSION=${1%-*}
+    export BUILD_TYPE=${1#*-}
+  fi
+
   : ${INSTALL_ROOT:?} ${PACKAGE_VERSION:?} ${BUILD_TYPE:?} \
    ${PACKAGE_NAME:?}
 
@@ -39,7 +44,8 @@ wget_url() {
       case ${DOWNLOAD_URL} in
         *.gz) wget -O- ${DOWNLOAD_URL} | tar xz --strip-components=1;;
         *.bz2) wget -O- ${DOWNLOAD_URL} | tar xj --strip-components=1;;
-        *.git) git git clone --branch=${PACKAGE_VERSION} --depth=1 ${DOWNLOAD_URL} ${DIR_SRC}
+        *.git) git clone --branch=${PACKAGE_VERSION} --depth=1 ${DOWNLOAD_URL} ${DIR_SRC}
+               git submodule update --init --recursive ;;
       esac
   fi
 }
@@ -57,7 +63,8 @@ run_cmake_configure() {
 }
 
 run_cmake_build() {
-  cmake --build ${DIR_BUILD} --target install -- -j${PARALLEL_BUILD} | tee ${DIR_BUILD}/build.log 2>&1
+  cmake --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} | tee ${DIR_BUILD}/build.log 2>&1
+  cmake --build ${DIR_BUILD} --target install -- -j${PARALLEL_BUILD} | tee ${DIR_BUILD}/install.log 2>&1
 }
 
 cp_log() {
@@ -81,7 +88,7 @@ run_configure() {
   cd ${DIR_BUILD} || exit 1
   if [ $BUILD_TYPE == "debug" ]; then
      CC=${CC} CXX=${CXX} CPPFLAGS=-DDEBUG CFLAGS="-g -O0" ${DIR_CONFIGURE}/configure --prefix=${DIR_INSTALL} --enable-debug \
-                          ${AT_EXTRA_ARGS} | tee ${DIR_BUILD}/configure.log 2>&1
+                          ${CONFIGURE_EXTRA_ARGS} "$@" | tee ${DIR_BUILD}/configure.log 2>&1
   elif [ $BUILD_TYPE == "release" ]; then
      CC=${CC} CXX=${CXX} CPPFLAGS=-DNDEBUG CFLAGS="-O3" ${DIR_CONFIGURE}/configure --prefix=${DIR_INSTALL} \
                           ${CONFIGURE_EXTRA_ARGS} "$@" | tee ${DIR_BUILD}/configure.log 2>&1
@@ -99,10 +106,6 @@ run_make() {
 }
 
 create_module() {
-  if [ "${PACKAGE_ENV_NAME}" == "" ]; then
-    PACKAGE_ENV_NAME=${PACKAGE_NAME^^}
-  fi
-
   MODULE_DEPS=""
   if [ "$PACKAGE_DEPS" != "" ]; then
     for dep in "${PACKAGE_DEPS[@]}"; do
@@ -129,9 +132,12 @@ prepend-path    LD_LIBRARY_PATH    \$root/lib
 prepend-path    LIBRARY_PATH       \$root/lib
 prepend-path    MANPATH            \$root/share/man
 prepend-path    PKG_CONFIG_PATH    \$root/lib/pkgconfig
-setenv ${PACKAGE_ENV_NAME}_ROOT        \$root
-setenv ${PACKAGE_ENV_NAME}_DIR         \$root
-setenv ${PACKAGE_ENV_NAME}_VERSION     ${PACKAGE_NAME_SUFFIX}
+setenv ${PACKAGE_NAME^^}_ROOT      \$root
+setenv ${PACKAGE_NAME}_ROOT        \$root
+setenv ${PACKAGE_NAME^^}_DIR       \$root
+setenv ${PACKAGE_NAME}_DIR         \$root
+setenv ${PACKAGE_NAME^^}_VERSION   ${PACKAGE_NAME_SUFFIX}
+setenv ${PACKAGE_NAME}_VERSION     ${PACKAGE_NAME_SUFFIX}
 ${MODULE_EXTRA_LINES}
 EOF
 }
