@@ -9,7 +9,10 @@ setup_env "$@"
 export GIS_DOWNLOAD_URL="https://github.com/ofiwg/libfabric/releases/download/v${GIS_PACKAGE_VERSION}/libfabric-${GIS_PACKAGE_VERSION}.tar.bz2"
 wget_url
 
-run_configure
+if [ "$(get_platform_name)" == "expanse" ]; then
+  OFI_BACKEND="--enable-ibv --disable-opx --disable-sockets --disable-udp --disable-shm --disable-tcp"
+fi
+run_configure ${OFI_BACKEND}
 run_make
 cp_log
 

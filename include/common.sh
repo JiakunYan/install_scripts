@@ -1,8 +1,17 @@
 set -o pipefail
 set -ex
 
+get_platform_name() {
+  if [ "${SLURM_CLUSTER_NAME}" == "expanse" ]; then
+    echo "expanse"
+  else
+    echo "pc"
+  fi
+}
+
 parse_full_dep_names() {
-  GIS_PACKAGE_DEPS_FULL_NAME=""
+  echo ${GIS_PRELOAD_PACKAGES}
+  GIS_PACKAGE_DEPS_FULL_NAME="${GIS_PRELOAD_PACKAGES}"
   if [ "${GIS_PACKAGE_DEPS}" != "" ]; then
     for DEP in "${GIS_PACKAGE_DEPS[@]}"; do
       DEP_MAJOR=${DEP%/*}
@@ -19,6 +28,8 @@ parse_full_dep_names() {
 }
 
 setup_env() {
+  source config/"$(get_platform_name)".sh
+
   if test $# -eq 1; then
     export GIS_PACKAGE_VERSION=${1%-*}
     export GIS_BUILD_TYPE=${1#*-}
@@ -131,11 +142,8 @@ run_make() {
 create_module() {
   MODULE_DEPS=""
   if [ "${GIS_PACKAGE_DEPS_FULL_NAME}" != "" ]; then
-    for DEP in "${GIS_PACKAGE_DEPS_FULL_NAME[@]}"; do
       MODULE_DEPS="$MODULE_DEPS
-module load ${DEP}
-prereq      ${DEP}"
-    done
+module load ${GIS_PACKAGE_DEPS_FULL_NAME}"
   fi
 
   mkdir -p "$(dirname ${GIS_MODULE_FILE_PATH})"
@@ -151,8 +159,8 @@ conflict    ${GIS_PACKAGE_NAME_MAJOR}
 ${MODULE_DEPS}
 prepend-path    CPATH              \$root/include
 prepend-path    PATH               \$root/bin
-prepend-path    LD_LIBRARY_PATH    \$root/lib
-prepend-path    LIBRARY_PATH       \$root/lib
+prepend-path    LD_LIBRARY_PATH    \$root/lib:\$root/lib64
+prepend-path    LIBRARY_PATH       \$root/lib:\$root/lib64
 prepend-path    MANPATH            \$root/share/man
 prepend-path    PKG_CONFIG_PATH    \$root/lib/pkgconfig
 setenv ${GIS_PACKAGE_NAME_MAJOR^^}_ROOT      \$root

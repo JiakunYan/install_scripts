@@ -2,7 +2,7 @@
 
 source include/common.sh
 
-export GIS_PACKAGE_DEPS=("gcc")
+export GIS_PACKAGE_DEPS=("gcc" "hwloc")
 export GIS_PACKAGE_NAME_MAJOR=openmpi
 setup_env "$@"
 
@@ -10,7 +10,10 @@ export GIS_DOWNLOAD_URL="https://download.open-mpi.org/release/open-mpi/v${GIS_P
 wget_url
 
 unset HWLOC_VERSION
-run_configure
+if [ "$(get_platform_name)" == "expanse" ]; then
+  OMPI_OPTION="--with-pmix"
+fi
+run_configure ${OMPI_OPTION}
 run_make
 
 cp_log
