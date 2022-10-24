@@ -19,10 +19,10 @@ fi
 run_cmake_configure \
     -DLCI_SERVER=${GIS_COMM_BACKEND} \
     -DLCI_PACKET_SIZE=69632 \
-    -DLCI_SERVER_NUM_PKTS=16384 \
-    -DLCI_SERVER_MAX_RCVS=1024 \
+    -DLCI_SERVER_NUM_PKTS_DEFAULT=16384 \
     ${DEBUG_EXTRA_ARGS}
 run_cmake_build
+run_cmake_install
 
 cp_log
 create_module

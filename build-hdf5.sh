@@ -16,6 +16,7 @@ if  [[ -d "/etc/opt/cray/release/" ]]; then
 fi
 run_cmake_configure ${CONFIG_EXTRA_ARGS}
 run_cmake_build
+run_cmake_install
 
 cp_log
 create_module

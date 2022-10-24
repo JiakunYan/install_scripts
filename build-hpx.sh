@@ -43,6 +43,7 @@ run_cmake_configure \
     -DLCI_USE_DREG=OFF \
     -DHPX_WITH_ZERO_COPY_SERIALIZATION_THRESHOLD=4096
 run_cmake_build
+run_cmake_install
 
 cp_log
 create_module

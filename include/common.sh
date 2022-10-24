@@ -96,6 +96,9 @@ run_cmake_configure() {
 
 run_cmake_build() {
   cmake --build ${GIS_BUILD_PATH} -- -j${GIS_PARALLEL_BUILD} | tee ${GIS_BUILD_PATH}/build.log 2>&1
+}
+
+run_cmake_install() {
   cmake --build ${GIS_BUILD_PATH} --target install -- -j${GIS_PARALLEL_BUILD} | tee ${GIS_BUILD_PATH}/install.log 2>&1
 }
 
@@ -116,13 +119,14 @@ cp_log() {
 
 run_configure() {
   GIS_CONFIGURE_PATH=${GIS_CONFIGURE_PATH:-${GIS_SRC_PATH}}
+  GIS_CONFIGURE_EXE=${GIS_CONFIGURE_EXE:-configure}
   mkdir -p ${GIS_BUILD_PATH}
   cd ${GIS_BUILD_PATH} || exit 1
   if [ ${GIS_BUILD_TYPE} == "debug" ]; then
-     CC=${CC} CXX=${CXX} CPPFLAGS="${CPPFLAGS} -DDEBUG" CFLAGS="${CFLAGS} -g -O0" CXXFLAGS="${CXXFLAGS} -g -O0" ${GIS_CONFIGURE_PATH}/configure --prefix=${GIS_INSTALL_PATH} --enable-debug \
+     CC=${CC} CXX=${CXX} CPPFLAGS="${CPPFLAGS} -DDEBUG" CFLAGS="${CFLAGS} -g -O0" CXXFLAGS="${CXXFLAGS} -g -O0" ${GIS_CONFIGURE_PATH}/${GIS_CONFIGURE_EXE} --prefix=${GIS_INSTALL_PATH} --enable-debug \
                           ${GIS_CONFIGURE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
   elif [ ${GIS_BUILD_TYPE} == "release" ]; then
-     CC=${CC} CXX=${CXX} CPPFLAGS="${CPPFLAGS} -DNDEBUG" CFLAGS="${CFLAGS} -O3" CXXFLAGS="${CXXFLAGS} -O3" ${GIS_CONFIGURE_PATH}/configure --prefix=${GIS_INSTALL_PATH} \
+     CC=${CC} CXX=${CXX} CPPFLAGS="${CPPFLAGS} -DNDEBUG" CFLAGS="${CFLAGS} -O3" CXXFLAGS="${CXXFLAGS} -O3" ${GIS_CONFIGURE_PATH}/${GIS_CONFIGURE_EXE} --prefix=${GIS_INSTALL_PATH} \
                           ${GIS_CONFIGURE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
   else
     echo "Unrecognized GIS_BUILD_TYPE: ${GIS_BUILD_TYPE}!"

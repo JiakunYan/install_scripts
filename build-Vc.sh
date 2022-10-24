@@ -11,6 +11,7 @@ wget_url
 
 run_cmake_configure
 run_cmake_build
+run_cmake_install
 cp_log
 
 create_module

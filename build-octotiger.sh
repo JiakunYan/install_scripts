@@ -25,6 +25,7 @@ run_cmake_configure \
     -DSilo_DIR=$SILO_ROOT \
     -DOCTOTIGER_ARCH_FLAG="-march=native"
 run_cmake_build
+run_cmake_install
 cp_log
 
 create_module
