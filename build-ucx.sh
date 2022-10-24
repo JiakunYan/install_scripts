@@ -6,9 +6,11 @@ export GIS_PACKAGE_DEPS=("gcc")
 export GIS_PACKAGE_NAME_MAJOR=ucx
 setup_env "$@"
 
-export GIS_DOWNLOAD_URL="https://github.com/openucx/ucx/releases/download/v${GIS_PACKAGE_VERSION}/ucx-${GIS_PACKAGE_VERSION}.tar.gz"
+export GIS_BRANCH=v${GIS_PACKAGE_VERSION}
+export GIS_DOWNLOAD_URL="https://github.com/openucx/ucx.git"
 wget_url
 
+${GIS_SRC_PATH}/autogen.sh
 export GIS_CONFIGURE_PATH=${GIS_SRC_PATH}/contrib
 if [ ${GIS_BUILD_TYPE} == "debug" ]; then
   export GIS_CONFIGURE_EXE=configure-devel

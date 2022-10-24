@@ -73,7 +73,7 @@ wget_url() {
       case ${GIS_DOWNLOAD_URL} in
         *.gz) wget -O- ${GIS_DOWNLOAD_URL} | tar xz --strip-components=1;;
         *.bz2) wget -O- ${GIS_DOWNLOAD_URL} | tar xj --strip-components=1;;
-        *.git) git clone --branch=${GIS_PACKAGE_VERSION} --depth=1 ${GIS_DOWNLOAD_URL} ${GIS_SRC_PATH}
+        *.git) git clone --branch=${GIS_BRANCH:-${GIS_PACKAGE_VERSION}} --depth=1 ${GIS_DOWNLOAD_URL} ${GIS_SRC_PATH}
                git submodule update --init --recursive ;;
       esac
   fi
