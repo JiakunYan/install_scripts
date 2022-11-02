@@ -14,11 +14,12 @@ if  [[ -d "/etc/opt/cray/release/" ]]; then
                       -DHDF5_ENABLE_PARALLEL:BOOL=ON \
                       -DHDF5_BUILD_CPP_LIB:BOOL=OFF "
 fi
+if [ "$(get_platform_name)" == "perlmutter" ]; then
+    export MPI_HOME=${MPICH_DIR}
+fi
 run_cmake_configure ${CONFIG_EXTRA_ARGS}
 run_cmake_build
 run_cmake_install
 
 cp_log
 create_module
-
-run_test h5cc

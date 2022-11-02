@@ -2,8 +2,10 @@ set -o pipefail
 set -ex
 
 get_platform_name() {
-  if [ "${SLURM_CLUSTER_NAME}" == "expanse" ]; then
+  if [ "${CMD_WLM_CLUSTER_NAME}" == "expanse" ]; then
     echo "expanse"
+  elif [ "${LMOD_SYSTEM_NAME}" == "perlmutter" ]; then
+    echo "perlmutter"
   else
     echo "pc"
   fi
@@ -55,8 +57,8 @@ setup_env() {
   GIS_MODULE_FILE_PATH=${GIS_MODULE_ROOT}/${GIS_PACKAGE_NAME_MAJOR}/${GIS_PACKAGE_NAME_MINOR}
 
   export GIS_SCRIPT_ROOT GIS_SRC_PATH GIS_BUILD_PATH GIS_INSTALL_PATH GIS_MODULE_FILE_PATH GIS_PACKAGE_NAME_MINOR
-  export CFLAGS=-fPIC
-  export CXXFLAGS=-fPIC
+  export CFLAGS="${CFLAGS} -fPIC"
+  export CXXFLAGS="${CXXFLAGS} -fPIC"
 
   parse_full_dep_names
   module purge
@@ -72,6 +74,7 @@ wget_url() {
       cd ${GIS_SRC_PATH}
       case ${GIS_DOWNLOAD_URL} in
         *.gz) wget -O- ${GIS_DOWNLOAD_URL} | tar xz --strip-components=1;;
+        *.tgz) wget -O- ${GIS_DOWNLOAD_URL} | tar xz --strip-components=1;;
         *.bz2) wget -O- ${GIS_DOWNLOAD_URL} | tar xj --strip-components=1;;
         *.git) git clone --branch=${GIS_BRANCH:-${GIS_PACKAGE_VERSION}} --depth=1 ${GIS_DOWNLOAD_URL} ${GIS_SRC_PATH}
                git submodule update --init --recursive ;;
@@ -81,17 +84,16 @@ wget_url() {
 
 run_cmake_configure() {
   mkdir -p ${GIS_BUILD_PATH}
-  CMAKE_BASIC_ARGS="
-    -H${GIS_SRC_PATH} \
-    -B${GIS_BUILD_PATH} \
-    -DCMAKE_INSTALL_PREFIX=${GIS_INSTALL_PATH} \
-    -DCMAKE_C_COMPILER=${CC} \
-    -DCMAKE_CXX_COMPILER=${CXX} \
-    -DCMAKE_C_FLAGS=${CFLAGS} \
-    -DCMAKE_CXX_FLAGS=${CXXFLAGS} \
-    -DCMAKE_BUILD_TYPE=${GIS_BUILD_TYPE}
-    -DCMAKE_VERBOSE_MAKEFILE=ON"
-  cmake ${CMAKE_BASIC_ARGS} ${GIS_CMAKE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
+  cmake -H${GIS_SRC_PATH} \
+        -B${GIS_BUILD_PATH} \
+        -DCMAKE_INSTALL_PREFIX=${GIS_INSTALL_PATH} \
+        -DCMAKE_C_COMPILER=${CC} \
+        -DCMAKE_CXX_COMPILER=${CXX} \
+        -DCMAKE_C_FLAGS="${CFLAGS}" \
+        -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
+        -DCMAKE_BUILD_TYPE=${GIS_BUILD_TYPE} \
+        -DCMAKE_VERBOSE_MAKEFILE=ON \
+        ${GIS_CMAKE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
 }
 
 run_cmake_build() {

@@ -34,6 +34,6 @@ done
 export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
 export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
 
-export GIS_ENABLE_HPX_OFI=OFF
 export GIS_PARALLEL_BUILD=16
 export GIS_COMM_BACKEND=ibv
+export GIS_WITH_CUDA=OFF
