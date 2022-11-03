@@ -12,11 +12,7 @@ build() {
       fi
       if [ -f ./build-${major}.sh ]; then
         echo "./build-${major}.sh ${minor}"
-        if [ "$GIS_QUIET" == "ON" ]; then
-          ./build-${major}.sh ${minor} > /dev/null
-        else
-          ./build-${major}.sh ${minor}
-        fi
+        ./build-${major}.sh ${minor}
       fi
   done
 }
