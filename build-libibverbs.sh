@@ -18,4 +18,7 @@ ln -s ${GIS_BUILD_PATH}/include ${GIS_INSTALL_PATH}/include
 ln -s ${GIS_BUILD_PATH}/lib ${GIS_INSTALL_PATH}/lib
 cp_log
 
+export GIS_MODULE_EXTRA_LINES="
+setenv IBV_ROOT      \$root
+"
 create_module

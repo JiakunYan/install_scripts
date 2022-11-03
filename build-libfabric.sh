@@ -15,6 +15,9 @@ run_configure ${OFI_BACKEND}
 run_make
 cp_log
 
+export GIS_MODULE_EXTRA_LINES="
+setenv OFI_ROOT      \$root
+"
 create_module
 
 run_test fi_info
