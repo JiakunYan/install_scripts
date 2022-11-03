@@ -10,7 +10,7 @@ export GIS_PACKAGE_DEPS
 export GIS_PACKAGE_NAME_MAJOR=lci
 setup_env "$@"
 
-export GIS_DOWNLOAD_URL="git@github.com:uiuc-hpc/LC.git"
+export GIS_DOWNLOAD_URL="https://github.com/uiuc-hpc/LC.git"
 wget_url
 
 if [ ${GIS_BUILD_TYPE} == "debug" ]; then
