@@ -38,8 +38,6 @@ parse_full_dep_names() {
 }
 
 setup_env() {
-  source config/"$(get_platform_name)".sh
-
   : ${GIS_PACKAGE_NAME_MAJOR:?}
   if test $# -ne 1; then
     GIS_PACKAGE_NAME_MINOR=$(get_dep_default_version "${GIS_PACKAGE_NAME_MAJOR}")
