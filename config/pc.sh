@@ -23,7 +23,7 @@ for package in "${GIS_DEFAULT_PACKAGES[@]}"
 do
   major=${package%/*}
   minor=${package#*/}
-  echo "export GIS_${major}_DEFAULT_VERSION==${minor}"
+  echo "export GIS_${major}_DEFAULT_VERSION=${minor}"
   export GIS_${major}_DEFAULT_VERSION=${minor}
   unset major
   unset minor

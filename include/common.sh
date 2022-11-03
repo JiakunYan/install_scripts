@@ -13,16 +13,22 @@ get_platform_name() {
   fi
 }
 
+get_dep_default_version() {
+  : ${1:?}
+  DEP_MAJOR=${1}
+  DEP_MINOR_P=GIS_${DEP_MAJOR}_DEFAULT_VERSION
+  DEP_MINOR=${!DEP_MINOR_P}
+  echo "${DEP_MINOR}"
+}
+
 parse_full_dep_names() {
-  echo ${GIS_PRELOAD_PACKAGES}
   GIS_PACKAGE_DEPS_FULL_NAME="${GIS_PRELOAD_PACKAGES}"
   if [ "${GIS_PACKAGE_DEPS}" != "" ]; then
     for DEP in "${GIS_PACKAGE_DEPS[@]}"; do
       DEP_MAJOR=${DEP%/*}
       DEP_MINOR=${DEP#*/}
       if [ ${DEP_MINOR} == ${DEP} ]; then
-        DEP_MINOR_P=GIS_${DEP_MINOR}_DEFAULT_VERSION
-        DEP_MINOR=${!DEP_MINOR_P}
+        DEP_MINOR="$(get_dep_default_version "${DEP_MAJOR}")"
       fi
       : ${DEP_MINOR:?}
       GIS_PACKAGE_DEPS_FULL_NAME="${GIS_PACKAGE_DEPS_FULL_NAME} ${DEP_MAJOR}/${DEP_MINOR}"
@@ -34,21 +40,23 @@ parse_full_dep_names() {
 setup_env() {
   source config/"$(get_platform_name)".sh
 
-  if test $# -neq 1; then
-    echo "No argument found!"
-    exit 1
+  : ${GIS_PACKAGE_NAME_MAJOR:?}
+  if test $# -ne 1; then
+    GIS_PACKAGE_NAME_MINOR=$(get_dep_default_version "${GIS_PACKAGE_NAME_MAJOR}")
+  else
+    GIS_PACKAGE_NAME_MINOR=${1}
   fi
+  export GIS_PACKAGE_NAME_MINOR
 
-  export GIS_PACKAGE_NAME_MINOR=${1}
-  GIS_PACKAGE_VERSION=${1%-*}
-  GIS_BUILD_TYPE=${1#*-}
+  GIS_PACKAGE_VERSION=${GIS_PACKAGE_NAME_MINOR%-*}
+  GIS_BUILD_TYPE=${GIS_PACKAGE_NAME_MINOR#*-}
   if [ "${GIS_BUILD_TYPE}" == "${GIS_PACKAGE_VERSION}" ]; then
     GIS_BUILD_TYPE=release
   fi
   export GIS_PACKAGE_VERSION GIS_BUILD_TYPE
 
-  : ${GIS_INSTALL_ROOT:?} ${GIS_PACKAGE_VERSION:?} ${GIS_BUILD_TYPE:?} \
-   ${GIS_PACKAGE_NAME_MAJOR:?}
+  : ${GIS_INSTALL_ROOT:?} ${GIS_PACKAGE_VERSION:?} ${GIS_BUILD_TYPE:?}
+
 
   if [ "${GIS_PACKAGE_VERSION}" == "local" ] && [ "${GIS_SRC_PATH}" == "" ]; then
       DIR_SRC_PTR=GIS_${GIS_PACKAGE_NAME_MAJOR^^}_LOCAL_SRC_PATH
@@ -165,14 +173,25 @@ run_make() {
   make -j ${GIS_PARALLEL_BUILD} install | tee ${GIS_BUILD_PATH}/install.log 2>&1
 }
 
+set_module_default() {
+  cat >"$(dirname ${GIS_MODULE_FILE_PATH})"/.version <<EOF
+#%Module
+set ModulesVersion  "${GIS_PACKAGE_NAME_MINOR}"
+EOF
+}
+
 create_module() {
+  mkdir -p "$(dirname ${GIS_MODULE_FILE_PATH})"
+
+  if [ "${GIS_PACKAGE_NAME_MINOR}" == "$(get_dep_default_version "${GIS_PACKAGE_NAME_MAJOR}")" ]; then
+    set_module_default
+  fi
+
   MODULE_DEPS=""
   if [ "${GIS_PACKAGE_DEPS_FULL_NAME}" != "" ]; then
       MODULE_DEPS="$MODULE_DEPS
 module load ${GIS_PACKAGE_DEPS_FULL_NAME}"
   fi
-
-  mkdir -p "$(dirname ${GIS_MODULE_FILE_PATH})"
 
   cat >${GIS_MODULE_FILE_PATH} <<EOF
 #%Module
