@@ -59,7 +59,12 @@ setup_env() {
   GIS_SCRIPT_ROOT=$(realpath ".")
   GIS_INSTALL_ROOT=$(realpath "${GIS_INSTALL_ROOT}")
   GIS_MODULE_ROOT=$(realpath "${GIS_MODULE_ROOT:-${GIS_INSTALL_ROOT}/modulefiles}")
-  GIS_SRC_PATH=$(realpath "${GIS_SRC_PATH:-source/${GIS_PACKAGE_NAME_MAJOR}-${GIS_PACKAGE_VERSION}}")
+  if [ "${GIS_SRC_PATH}" == "" ]; then
+    mkdir -p source
+    GIS_SRC_PATH=$(realpath "source/${GIS_PACKAGE_NAME_MAJOR}-${GIS_PACKAGE_VERSION}")
+  else
+    GIS_SRC_PATH=$(realpath "${GIS_SRC_PATH}")
+  fi
 
   GIS_INSTALL_PATH=${GIS_INSTALL_ROOT}/${GIS_PACKAGE_NAME_MAJOR}/${GIS_PACKAGE_NAME_MINOR}
   GIS_BUILD_PATH=${GIS_INSTALL_PATH}/build
