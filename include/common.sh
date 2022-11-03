@@ -2,7 +2,9 @@ set -o pipefail
 set -ex
 
 get_platform_name() {
-  if [ "${CMD_WLM_CLUSTER_NAME}" == "expanse" ]; then
+  if [ "${GIS_PLATFORM}" != "" ]; then
+    echo ${GIS_PLATFORM}
+  elif [ "${CMD_WLM_CLUSTER_NAME}" == "expanse" ]; then
     echo "expanse"
   elif [ "${LMOD_SYSTEM_NAME}" == "perlmutter" ]; then
     echo "perlmutter"
