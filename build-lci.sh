@@ -2,7 +2,7 @@
 
 source include/common.sh
 
-GIS_PACKAGE_DEPS=("gcc" "cmake" "openmpi")
+GIS_PACKAGE_DEPS=("cmake" "openmpi")
 if [ ${GIS_COMM_BACKEND} == "ofi" ]; then
   GIS_PACKAGE_DEPS+=("libfabric")
 fi

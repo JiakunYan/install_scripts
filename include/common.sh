@@ -140,6 +140,10 @@ cp_log() {
 run_configure() {
   GIS_CONFIGURE_PATH=${GIS_CONFIGURE_PATH:-${GIS_SRC_PATH}}
   GIS_CONFIGURE_EXE=${GIS_CONFIGURE_EXE:-configure}
+  if [ ! -f "${GIS_CONFIGURE_PATH}/${GIS_CONFIGURE_EXE}" ]; then
+    GIS_AUTOGEN_PATH=${GIS_AUTOGEN_PATH:-${GIS_CONFIGURE_PATH}}
+    ${GIS_AUTOGEN_PATH}/autogen.sh
+  fi
   mkdir -p ${GIS_BUILD_PATH}
   cd ${GIS_BUILD_PATH} || exit 1
   if [ ${GIS_BUILD_TYPE} == "debug" ]; then

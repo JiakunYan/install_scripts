@@ -9,8 +9,8 @@ export GIS_BRANCH=v${GIS_PACKAGE_VERSION}
 export GIS_DOWNLOAD_URL="https://github.com/openucx/ucx.git"
 wget_url
 
-${GIS_SRC_PATH}/autogen.sh
 export GIS_CONFIGURE_PATH=${GIS_SRC_PATH}/contrib
+export GIS_AUTOGEN_PATH=${GIS_SRC_PATH}
 if [ ${GIS_BUILD_TYPE} == "debug" ]; then
   export GIS_CONFIGURE_EXE=configure-devel
 elif [ ${GIS_BUILD_TYPE} == "release" ]; then
