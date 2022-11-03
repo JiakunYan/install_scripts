@@ -34,3 +34,6 @@ export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
 export GIS_PARALLEL_BUILD=4
 export GIS_COMM_BACKEND=ofi
 export GIS_WITH_CUDA=OFF
+
+export CC=gcc
+export CXX=g++
