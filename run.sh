@@ -33,6 +33,6 @@ clean() {
   done
 }
 
-source config/common.sh
+source include/common.sh
 source config/"$(get_platform_name)".sh
 "$@"
