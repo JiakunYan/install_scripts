@@ -2,10 +2,9 @@
 
 export GIS_INSTALL_ROOT=~/opt
 
-export GIS_PRELOAD_PACKAGES="DefaultModules"
+export GIS_PRELOAD_PACKAGES="DefaultModules gcc/10.2.0"
 
 GIS_DEFAULT_PACKAGES=(
-    "gcc/10.2.0"
     "cmake/3.23.4-release"
     "ninja/1.11.1-release"
     "jemalloc/5.3.0-release"

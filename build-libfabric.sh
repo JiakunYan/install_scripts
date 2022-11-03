@@ -2,7 +2,6 @@
 
 source include/common.sh
 
-export GIS_PACKAGE_DEPS=("gcc")
 export GIS_PACKAGE_NAME_MAJOR=libfabric
 setup_env "$@"
 

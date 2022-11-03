@@ -2,7 +2,7 @@
 
 source include/common.sh
 
-export GIS_PACKAGE_DEPS=("gcc" "cmake" "hdf5")
+export GIS_PACKAGE_DEPS=("cmake" "hdf5")
 export GIS_PACKAGE_NAME_MAJOR=silo
 setup_env "$@"
 

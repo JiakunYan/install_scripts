@@ -2,7 +2,7 @@
 
 source include/common.sh
 
-export GIS_PACKAGE_DEPS=("gcc" "cmake" "ninja" "boost" "hwloc" "openmpi" "jemalloc" "Vc" "papi" "lci")
+export GIS_PACKAGE_DEPS=("cmake" "ninja" "boost" "hwloc" "openmpi" "jemalloc" "Vc" "papi" "lci")
 if [ "${GIS_ENABLE_HPX_OFI}" == "ON" ]; then
   GIS_PACKAGE_DEPS+=("libfabric")
 fi

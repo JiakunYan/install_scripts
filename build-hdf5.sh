@@ -2,7 +2,7 @@
 
 source include/common.sh
 
-export GIS_PACKAGE_DEPS=("gcc" "cmake")
+export GIS_PACKAGE_DEPS=("cmake")
 export GIS_PACKAGE_NAME_MAJOR=hdf5
 setup_env "$@"
 

@@ -2,7 +2,7 @@
 
 source include/common.sh
 
-export GIS_PACKAGE_DEPS=("gcc" "cmake" "Vc" "hpx" "silo" "cppuddle")
+export GIS_PACKAGE_DEPS=("cmake" "Vc" "hpx" "silo" "cppuddle")
 export GIS_PACKAGE_NAME_MAJOR=octotiger
 setup_env "$@"
 

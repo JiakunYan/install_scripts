@@ -2,7 +2,7 @@
 
 source include/common.sh
 
-export GIS_PACKAGE_DEPS=("gcc" "hwloc")
+export GIS_PACKAGE_DEPS=("hwloc")
 export GIS_PACKAGE_NAME_MAJOR=openmpi
 setup_env "$@"
 

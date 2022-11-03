@@ -34,10 +34,18 @@ parse_full_dep_names() {
 setup_env() {
   source config/"$(get_platform_name)".sh
 
-  if test $# -eq 1; then
-    export GIS_PACKAGE_VERSION=${1%-*}
-    export GIS_BUILD_TYPE=${1#*-}
+  if test $# -neq 1; then
+    echo "No argument found!"
+    exit 1
   fi
+
+  export GIS_PACKAGE_NAME_MINOR=${1}
+  GIS_PACKAGE_VERSION=${1%-*}
+  GIS_BUILD_TYPE=${1#*-}
+  if [ "${GIS_BUILD_TYPE}" == "${GIS_PACKAGE_VERSION}" ]; then
+    GIS_BUILD_TYPE=release
+  fi
+  export GIS_PACKAGE_VERSION GIS_BUILD_TYPE
 
   : ${GIS_INSTALL_ROOT:?} ${GIS_PACKAGE_VERSION:?} ${GIS_BUILD_TYPE:?} \
    ${GIS_PACKAGE_NAME_MAJOR:?}
@@ -53,7 +61,6 @@ setup_env() {
   GIS_MODULE_ROOT=$(realpath "${GIS_MODULE_ROOT:-${GIS_INSTALL_ROOT}/modulefiles}")
   GIS_SRC_PATH=$(realpath "${GIS_SRC_PATH:-source/${GIS_PACKAGE_NAME_MAJOR}-${GIS_PACKAGE_VERSION}}")
 
-  GIS_PACKAGE_NAME_MINOR=${GIS_PACKAGE_VERSION}-${GIS_BUILD_TYPE}${GIS_PACKAGE_NAME_MINOR_EXTRA}
   GIS_INSTALL_PATH=${GIS_INSTALL_ROOT}/${GIS_PACKAGE_NAME_MAJOR}/${GIS_PACKAGE_NAME_MINOR}
   GIS_BUILD_PATH=${GIS_INSTALL_PATH}/build
   GIS_MODULE_FILE_PATH=${GIS_MODULE_ROOT}/${GIS_PACKAGE_NAME_MAJOR}/${GIS_PACKAGE_NAME_MINOR}

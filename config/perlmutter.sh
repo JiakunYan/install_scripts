@@ -5,7 +5,6 @@ export GIS_INSTALL_ROOT=~/opt
 export GIS_PRELOAD_PACKAGES="craype-x86-milan craype-network-ofi xpmem PrgEnv-gnu gpu"
 
 GIS_DEFAULT_PACKAGES=(
-    "gcc/11.2.0"
     "cmake/3.22.0"
     "ninja/1.11.1-release"
     "jemalloc/5.3.0-release"
