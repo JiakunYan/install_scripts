@@ -8,7 +8,7 @@ setup_env "$@"
 export GIS_DOWNLOAD_URL="https://www.mpich.org/static/downloads/${GIS_PACKAGE_VERSION}/mpich-${GIS_PACKAGE_VERSION}.tar.gz"
 wget_url
 
-run_configure
+run_configure --disable-fortran
 run_make
 
 cp_log
