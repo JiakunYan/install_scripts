@@ -1,5 +1,5 @@
 set -o pipefail
-set -ex
+set -e
 
 get_platform_name() {
   if [ "${GIS_PLATFORM}" != "" ]; then
