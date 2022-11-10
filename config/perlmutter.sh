@@ -2,7 +2,7 @@
 
 export GIS_INSTALL_ROOT=~/opt
 
-export GIS_PRELOAD_PACKAGES="craype-x86-milan craype-network-ofi xpmem PrgEnv-gnu gpu"
+export GIS_PRELOAD_PACKAGES="craype-x86-milan craype-network-ofi xpmem PrgEnv-gnu gpu cray-mpich/8.1.17"
 
 GIS_DEFAULT_PACKAGES=(
     "cmake/3.22.0"
@@ -11,8 +11,6 @@ GIS_DEFAULT_PACKAGES=(
     "boost/1.78.0-gnu"
     "hwloc/2.7.1"
     "Vc/1.4.3"
-    "openmpi/4.1.4"
-    "mpich/4.0.2"
     "papi/6.0.0.15"
     "hdf5/1.8.12"
     "silo/4.11"
@@ -39,3 +37,4 @@ export GIS_WITH_CUDA=ON
 
 export CC=gcc
 export CXX=g++
+export GIS_MPI="cray-mpich/8.1.17"

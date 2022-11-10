@@ -30,8 +30,11 @@ parse_full_dep_names() {
       if [ ${DEP_MINOR} == ${DEP} ]; then
         DEP_MINOR="$(get_dep_default_version "${DEP_MAJOR}")"
       fi
-      : ${DEP_MINOR:?}
-      GIS_PACKAGE_DEPS_FULL_NAME="${GIS_PACKAGE_DEPS_FULL_NAME} ${DEP_MAJOR}/${DEP_MINOR}"
+      if [ "${DEP_MINOR}" == "" ]; then
+        GIS_PACKAGE_DEPS_FULL_NAME="${GIS_PACKAGE_DEPS_FULL_NAME} ${DEP_MAJOR}"
+      else
+        GIS_PACKAGE_DEPS_FULL_NAME="${GIS_PACKAGE_DEPS_FULL_NAME} ${DEP_MAJOR}/${DEP_MINOR}"
+      fi
     done
   fi
   export GIS_PACKAGE_DEPS_FULL_NAME
@@ -89,6 +92,7 @@ setup_env() {
   if [ "${GIS_PACKAGE_DEPS_FULL_NAME}" != "" ]; then
     module load ${GIS_PACKAGE_DEPS_FULL_NAME}
   fi
+  module list
 }
 
 wget_url() {

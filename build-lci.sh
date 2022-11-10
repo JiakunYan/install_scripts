@@ -2,7 +2,7 @@
 
 source include/common.sh
 
-GIS_PACKAGE_DEPS=("cmake" "openmpi")
+GIS_PACKAGE_DEPS=("cmake" "${GIS_MPI}")
 if [ ${GIS_COMM_BACKEND} == "ofi" ]; then
   GIS_PACKAGE_DEPS+=("libfabric")
 fi
@@ -17,6 +17,9 @@ if [ ${GIS_BUILD_TYPE} == "debug" ]; then
   CONFIG_EXTRA_ARGS="-DLCI_DEBUG=ON"
 elif [ ${GIS_BUILD_TYPE} == "release" ]; then
   CONFIG_EXTRA_ARGS="-DLCI_USE_PERFORMANCE_COUNTER=OFF"
+fi
+if [ "$(get_platform_name)" == "perlmutter" ]; then
+  CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} -DLCI_OFI_PROVIDER_HINT_DEFAULT=cxi"
 fi
 run_cmake_configure \
     -DLCI_SERVER=${GIS_COMM_BACKEND} \

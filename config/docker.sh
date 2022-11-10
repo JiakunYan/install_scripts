@@ -39,3 +39,4 @@ export GIS_WITH_CUDA=OFF
 
 export CC=gcc
 export CXX=g++
+export GIS_MPI="openmpi"

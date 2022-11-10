@@ -2,8 +2,8 @@
 
 source include/common.sh
 
-export GIS_PACKAGE_DEPS=("cmake" "ninja" "boost" "hwloc" "openmpi" "jemalloc" "Vc" "papi" "lci")
-if [ "${GIS_ENABLE_HPX_OFI}" == "ON" ]; then
+export GIS_PACKAGE_DEPS=("cmake" "ninja" "boost" "hwloc" "${GIS_MPI}" "jemalloc" "Vc" "papi" "lci")
+if [ "$(get_platform_name)" == "perlmutter" ]; then
   GIS_PACKAGE_DEPS+=("libfabric")
 fi
 export GIS_PACKAGE_NAME_MAJOR=hpx
@@ -13,11 +13,6 @@ export GIS_DOWNLOAD_URL="https://github.com/uiuc-hpc/hpx.git"
 wget_url
 
 HPX_WITH_PARCELPORT_LIBFABRIC=OFF
-if [ "$(get_platform_name)" == "perlmutter" ]; then
-  HPX_WITH_PARCELPORT_LIBFABRIC=ON
-  HPX_PARCELPORT_LIBFABRIC_PROVIDER="gni"
-fi
-
 run_cmake_configure \
     -GNinja \
     -DHPX_WITH_FETCH_ASIO=ON\
@@ -49,6 +44,7 @@ run_cmake_configure \
     -DHPX_WITH_PARCELPORT_LCI=ON \
     -DLCI_USE_DREG=OFF \
     -DHPX_WITH_ZERO_COPY_SERIALIZATION_THRESHOLD=4096
+
 run_cmake_build
 run_cmake_install
 
