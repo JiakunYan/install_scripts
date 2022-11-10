@@ -27,8 +27,8 @@ clean() {
       fi
       if [ -f ./build-${major}.sh ]; then
         : ${GIS_INSTALL_ROOT:?} ${major:?}
-        rm -r ${GIS_INSTALL_ROOT}/modulefiles/${major}/${minor}
         rm -r ${GIS_INSTALL_ROOT}/${major}/${minor}
+        rm -r ${GIS_INSTALL_ROOT}/modulefiles/${major}/${minor}
       fi
   done
 }

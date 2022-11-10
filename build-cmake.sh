@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# try `sudo apt-get install libncurses5-dev` if you don't get ccmake.
+
 source include/common.sh
 
 export GIS_PACKAGE_NAME_MAJOR=cmake
