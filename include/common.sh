@@ -84,8 +84,8 @@ setup_env() {
   GIS_MODULE_FILE_PATH=${GIS_MODULE_ROOT}/${GIS_PACKAGE_NAME_MAJOR}/${GIS_PACKAGE_NAME_MINOR}
 
   export GIS_SCRIPT_ROOT GIS_SRC_PATH GIS_BUILD_PATH GIS_INSTALL_PATH GIS_MODULE_FILE_PATH GIS_PACKAGE_NAME_MINOR
-  export CFLAGS="${CFLAGS} -fPIC"
-  export CXXFLAGS="${CXXFLAGS} -fPIC"
+  export CFLAGS="${CFLAGS} -fPIC -march=native"
+  export CXXFLAGS="${CXXFLAGS} -fPIC -march=native"
 
   parse_full_dep_names
   module purge
