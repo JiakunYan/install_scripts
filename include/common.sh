@@ -49,12 +49,19 @@ setup_env() {
   fi
   export GIS_PACKAGE_NAME_MINOR
 
-  GIS_PACKAGE_VERSION=${GIS_PACKAGE_NAME_MINOR%-*}
-  GIS_BUILD_TYPE=${GIS_PACKAGE_NAME_MINOR#*-}
-  if [ "${GIS_BUILD_TYPE}" == "${GIS_PACKAGE_VERSION}" ]; then
+#  GIS_PACKAGE_VERSION=${GIS_PACKAGE_NAME_MINOR%-*}
+#  GIS_BUILD_TYPE=${GIS_PACKAGE_NAME_MINOR#*-}
+  IFS='-' read -ra MINOR_ARRAY <<< "$GIS_PACKAGE_NAME_MINOR"
+  GIS_PACKAGE_VERSION=${MINOR_ARRAY[0]}
+  if [ "${#MINOR_ARRAY[@]}" -le 1 ]; then
     GIS_BUILD_TYPE=release
+  elif [ "${#MINOR_ARRAY[@]}" -le 2 ]; then
+    GIS_BUILD_TYPE=${MINOR_ARRAY[1]}
+  else
+    MINOR_ARRAY_TEMP=("${MINOR_ARRAY[@]:2}")
+    IFS="-" GIS_PACKAGE_NAME_MINOR_EXTRA="${MINOR_ARRAY_TEMP[*]}"
   fi
-  export GIS_PACKAGE_VERSION GIS_BUILD_TYPE
+  export GIS_PACKAGE_VERSION GIS_BUILD_TYPE GIS_PACKAGE_NAME_MINOR_EXTRA
 
   : ${GIS_INSTALL_ROOT:?} ${GIS_PACKAGE_VERSION:?} ${GIS_BUILD_TYPE:?}
 
@@ -111,6 +118,13 @@ wget_url() {
 }
 
 run_cmake_configure() {
+  if [ "${GIS_BUILD_TYPE}" == "debug" ]; then
+    GIS_BUILD_TYPE="Debug"
+  elif [ "${GIS_BUILD_TYPE}" == "release" ]; then
+    GIS_BUILD_TYPE="Release"
+  elif [ "${GIS_BUILD_TYPE}" == "relWithDebInfo" ]; then
+    GIS_BUILD_TYPE="RelWithDebInfo"
+  fi
   mkdir -p ${GIS_BUILD_PATH}
   cmake -H${GIS_SRC_PATH} \
         -B${GIS_BUILD_PATH} \
@@ -121,6 +135,7 @@ run_cmake_configure() {
         -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
         -DCMAKE_BUILD_TYPE=${GIS_BUILD_TYPE} \
         -DCMAKE_VERBOSE_MAKEFILE=ON \
+        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
         ${GIS_CMAKE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
 }
 

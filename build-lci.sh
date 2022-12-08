@@ -3,7 +3,7 @@
 source include/common.sh
 
 GIS_PACKAGE_DEPS=("cmake" "${GIS_MPI}")
-if [ ${GIS_COMM_BACKEND} == "ofi" ]; then
+if [ "${GIS_COMM_BACKEND}" == "ofi" ]; then
   GIS_PACKAGE_DEPS+=("libfabric")
 fi
 export GIS_PACKAGE_DEPS
@@ -15,6 +15,8 @@ wget_url
 
 if [ ${GIS_BUILD_TYPE} == "debug" ]; then
   CONFIG_EXTRA_ARGS="-DLCI_DEBUG=ON"
+elif [ ${GIS_BUILD_TYPE} == "relWithDebInfo" ]; then
+  CONFIG_EXTRA_ARGS="-DLCI_USE_PERFORMANCE_COUNTER=OFF"
 elif [ ${GIS_BUILD_TYPE} == "release" ]; then
   CONFIG_EXTRA_ARGS="-DLCI_USE_PERFORMANCE_COUNTER=OFF"
 fi

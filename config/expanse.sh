@@ -31,6 +31,8 @@ do
   unset major
   unset minor
 done
+IFS=" " GIS_DEFAULT_PACKAGES_STR="${GIS_DEFAULT_PACKAGES[*]}"
+export GIS_DEFAULT_PACKAGES_STR
 export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
 export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
 
