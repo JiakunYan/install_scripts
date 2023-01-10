@@ -8,10 +8,10 @@ GIS_DEFAULT_PACKAGES=(
     "cmake/3.22.0"
     "ninja/1.11.1"
     "jemalloc/5.3.0"
-    "boost/1.78.0-gnu"
+    "boost/1.80.0"
     "hwloc/2.7.1"
     "Vc/1.4.3"
-    "papi/6.0.0.15"
+    "papi/6.0.0.16"
     "hdf5/1.8.12"
     "silo/4.11"
     "lci/local"
@@ -37,4 +37,4 @@ export GIS_WITH_CUDA=ON
 
 export CC=gcc
 export CXX=g++
-export GIS_MPI="cray-mpich/8.1.17"
+export GIS_MPI="cray-mpich/8.1.22"

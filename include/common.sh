@@ -52,14 +52,17 @@ setup_env() {
 #  GIS_PACKAGE_VERSION=${GIS_PACKAGE_NAME_MINOR%-*}
 #  GIS_BUILD_TYPE=${GIS_PACKAGE_NAME_MINOR#*-}
   IFS='-' read -ra MINOR_ARRAY <<< "$GIS_PACKAGE_NAME_MINOR"
+  IFS=" "
   GIS_PACKAGE_VERSION=${MINOR_ARRAY[0]}
   if [ "${#MINOR_ARRAY[@]}" -le 1 ]; then
     GIS_BUILD_TYPE=release
   elif [ "${#MINOR_ARRAY[@]}" -le 2 ]; then
     GIS_BUILD_TYPE=${MINOR_ARRAY[1]}
   else
+    GIS_BUILD_TYPE=${MINOR_ARRAY[1]}
     MINOR_ARRAY_TEMP=("${MINOR_ARRAY[@]:2}")
     IFS="-" GIS_PACKAGE_NAME_MINOR_EXTRA="${MINOR_ARRAY_TEMP[*]}"
+    IFS=" "
   fi
   export GIS_PACKAGE_VERSION GIS_BUILD_TYPE GIS_PACKAGE_NAME_MINOR_EXTRA
 
@@ -97,6 +100,7 @@ setup_env() {
   parse_full_dep_names
   module purge
   if [ "${GIS_PACKAGE_DEPS_FULL_NAME}" != "" ]; then
+    echo "module load ${GIS_PACKAGE_DEPS_FULL_NAME}"
     module load ${GIS_PACKAGE_DEPS_FULL_NAME}
   fi
   module list
