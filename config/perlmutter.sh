@@ -2,7 +2,7 @@
 
 export GIS_INSTALL_ROOT=~/opt
 
-export GIS_PRELOAD_PACKAGES="craype-x86-milan craype-network-ofi xpmem PrgEnv-gnu gpu cray-mpich/8.1.17"
+export GIS_PRELOAD_PACKAGES="craype-x86-milan craype-network-ofi xpmem PrgEnv-gnu cudatoolkit gpu cray-mpich/8.1.17"
 
 GIS_DEFAULT_PACKAGES=(
     "cmake/3.22.0"
@@ -38,3 +38,6 @@ export GIS_WITH_CUDA=ON
 export CC=gcc
 export CXX=g++
 export GIS_MPI="cray-mpich/8.1.22"
+# platform-specific variable
+export CRAY_ACCEL_TARGET=nvidia80
+export LINKER_FLAGS="-L/opt/cray/pe/mpich/8.1.22/gtl/lib -lmpi_gtl_cuda"

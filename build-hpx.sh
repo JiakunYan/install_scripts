@@ -20,6 +20,7 @@ HPX_WITH_EXAMPLES=OFF
 if [ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == "example" ]; then
   HPX_WITH_EXAMPLES=ON
 fi
+export BOOST_ROOT=${BOOST_ROOT}/include
 run_cmake_configure \
     -GNinja \
     -DHPX_WITH_FETCH_ASIO=ON\
