@@ -2,7 +2,7 @@
 
 export GIS_INSTALL_ROOT=~/opt
 
-export GIS_PRELOAD_PACKAGES="craype-x86-milan craype-network-ofi xpmem PrgEnv-gnu cudatoolkit gpu cray-mpich/8.1.17"
+export GIS_PRELOAD_PACKAGES="craype-x86-milan craype-network-ofi xpmem PrgEnv-gnu cudatoolkit gpu"
 
 GIS_DEFAULT_PACKAGES=(
     "cmake/3.22.0"
