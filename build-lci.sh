@@ -4,7 +4,7 @@ set -x
 
 source include/common.sh
 
-GIS_PACKAGE_DEPS=("cmake" "${GIS_MPI}")
+GIS_PACKAGE_DEPS=("cmake" "${GIS_MPI}" "papi")
 if [ "${GIS_COMM_BACKEND}" == "ofi" ]; then
   GIS_PACKAGE_DEPS+=("libfabric")
 fi
@@ -32,6 +32,7 @@ run_cmake_configure \
     -DLCI_PACKET_SIZE=69632 \
     -DLCI_SERVER_NUM_PKTS_DEFAULT=16384 \
     -DLCI_USE_PERFORMANCE_COUNTER=${LCI_USE_PERFORMANCE_COUNTER} \
+    -DLCI_USE_PAPI=ON \
     ${CONFIG_EXTRA_ARGS}
 run_cmake_build
 run_cmake_install
