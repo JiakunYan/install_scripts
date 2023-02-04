@@ -14,7 +14,7 @@ GIS_DEFAULT_PACKAGES=(
     "openmpi/4.1.4"
     "mpich/4.0.2"
     "Vc/1.4.3"
-    "papi/6.0.0.1"
+    "papi/7.0.0"
     "hdf5/1.10.7"
     "silo/4.11"
     "lci/local"
