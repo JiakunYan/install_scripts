@@ -2,7 +2,7 @@
 
 source include/common.sh
 
-export GIS_PACKAGE_DEPS=("cmake" "ninja" "boost" "hwloc" "${GIS_MPI}" "jemalloc" "Vc" "papi" "lci")
+export GIS_PACKAGE_DEPS=("cmake" "ninja" "boost" "hwloc" "${GIS_MPI}" "jemalloc" "Vc" "papi" "lci" "numactl")
 if [ "$(get_platform_name)" == "perlmutter" ]; then
   GIS_PACKAGE_DEPS+=("libfabric")
 fi
@@ -20,9 +20,11 @@ HPX_WITH_EXAMPLES=OFF
 if [ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == "example" ]; then
   HPX_WITH_EXAMPLES=ON
 fi
-export BOOST_ROOT=${BOOST_ROOT}/include
+
 run_cmake_configure \
     -GNinja \
+    -DHPX_WITH_COMPILER_WARNINGS=ON \
+    -DHPX_WITH_COMPILER_WARNINGS_AS_ERRORS=ON \
     -DHPX_WITH_FETCH_ASIO=ON\
     -DHPX_WITH_PAPI=ON \
     -DHPX_WITH_THREAD_IDLE_RATES=ON \

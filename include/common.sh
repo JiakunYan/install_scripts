@@ -8,6 +8,8 @@ get_platform_name() {
     echo "expanse"
   elif [ "${LMOD_SYSTEM_NAME}" == "perlmutter" ]; then
     echo "perlmutter"
+  elif [[ "${HOSTNAME}" =~ "rostam" ]]; then
+    echo "rostam"
   else
     echo "pc"
   fi
