@@ -10,7 +10,7 @@ wget_url
 
 export GIS_CONFIGURE_PATH=${GIS_SRC_PATH}/src/
 export GIS_BUILD_PATH=${GIS_SRC_PATH}/src
-run_configure
+run_configure --with-components="infiniband net"
 run_make
 
 cp_log

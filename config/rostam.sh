@@ -2,14 +2,14 @@
 
 export GIS_INSTALL_ROOT=~/opt
 
-export GIS_PRELOAD_PACKAGES="gcc/12.2.0"
+export GIS_PRELOAD_PACKAGES="gcc/10.3.1"
 
 GIS_DEFAULT_PACKAGES=(
     "cmake/3.23.2"
     "ninja/1.11.1"
     "jemalloc/5.3.0"
     "libfabric/1.15.1"
-    "boost/1.80.0-release"
+    "boost/1.75.0-release"
     "hwloc/2.7.1"
     "openmpi/4.1.4"
     "mpich/4.0.2"

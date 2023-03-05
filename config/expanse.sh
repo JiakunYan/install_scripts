@@ -34,7 +34,7 @@ done
 GIS_DEFAULT_PACKAGES_STR="${GIS_DEFAULT_PACKAGES[*]}"
 export GIS_DEFAULT_PACKAGES_STR
 export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
-export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
+export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx-lci-pool
 
 export GIS_PARALLEL_BUILD=16
 export GIS_COMM_BACKEND=ibv

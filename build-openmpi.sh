@@ -10,9 +10,6 @@ export GIS_DOWNLOAD_URL="https://download.open-mpi.org/release/open-mpi/v${GIS_P
 wget_url
 
 unset HWLOC_VERSION
-if [ "$(get_platform_name)" == "expanse" ]; then
-  OMPI_OPTION="--with-pmix"
-fi
 run_configure ${OMPI_OPTION}
 run_make
 

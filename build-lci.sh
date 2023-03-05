@@ -29,7 +29,7 @@ if [ "$(get_platform_name)" == "perlmutter" ]; then
 fi
 run_cmake_configure \
     -DLCI_SERVER=${GIS_COMM_BACKEND} \
-    -DLCI_PACKET_SIZE=69632 \
+    -DLCI_PACKET_SIZE_DEFAULT=69632 \
     -DLCI_SERVER_NUM_PKTS_DEFAULT=16384 \
     -DLCI_USE_PERFORMANCE_COUNTER=${LCI_USE_PERFORMANCE_COUNTER} \
     -DLCI_USE_PAPI=ON \
