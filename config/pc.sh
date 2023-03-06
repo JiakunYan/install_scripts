@@ -20,6 +20,8 @@ GIS_DEFAULT_PACKAGES=(
     "hpx/local-debug"
     "cppuddle/master"
     "octotiger/master-debug"
+    "pmix/4.2.2"
+    "prrte/3.0.0"
 )
 for package in "${GIS_DEFAULT_PACKAGES[@]}"
 do
