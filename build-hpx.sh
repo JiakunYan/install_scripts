@@ -2,7 +2,7 @@
 
 source include/common.sh
 
-export GIS_PACKAGE_DEPS=("cmake" "ninja" "boost" "hwloc" "${GIS_MPI}" "jemalloc" "Vc" "papi" "lci" "numactl")
+export GIS_PACKAGE_DEPS=("cmake" "ninja" "boost" "hwloc" "${GIS_MPI}" "jemalloc" "Vc" "papi" "lci")
 if [ "$(get_platform_name)" == "perlmutter" ]; then
   GIS_PACKAGE_DEPS+=("libfabric")
 fi

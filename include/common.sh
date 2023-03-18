@@ -15,11 +15,33 @@ get_platform_name() {
   fi
 }
 
-get_dep_default_version() {
+get_dep_major() {
+  : ${1:?}
+  DEP_MAJOR=$(echo "${1}" | cut -d'/' -f1)
+  echo "$DEP_MAJOR"
+}
+
+get_dep_minor() {
+  : ${1:?}
+  if [[ "${1}" == *"/"* ]]; then
+      # Use the 'cut' command to extract all the text after the first '/'
+      DEP_MINOR=$(echo "${1}" | cut -d'/' -f2-)
+  else
+      # If there is no '/', return an empty string
+      DEP_MINOR=""
+  fi
+  echo "$DEP_MINOR"
+}
+
+get_dep_minor_default() {
   : ${1:?}
   DEP_MAJOR=${1}
-  DEP_MINOR_P=GIS_${DEP_MAJOR}_DEFAULT_VERSION
-  DEP_MINOR=${!DEP_MINOR_P}
+  read -ra GIS_DEFAULT_PACKAGE_ARRAY <<< "$GIS_DEFAULT_PACKAGES"
+  for string in "${GIS_DEFAULT_PACKAGE_ARRAY[@]}"; do
+      if [[ "$string" == "${DEP_MAJOR}"* ]]; then
+          DEP_MINOR="$(get_dep_minor "$string")"
+      fi
+  done
   echo "${DEP_MINOR}"
 }
 
@@ -27,12 +49,14 @@ parse_full_dep_names() {
   GIS_PACKAGE_DEPS_FULL_NAME="${GIS_PRELOAD_PACKAGES}"
   if [ "${GIS_PACKAGE_DEPS}" != "" ]; then
     for DEP in "${GIS_PACKAGE_DEPS[@]}"; do
-      DEP_MAJOR=${DEP%/*}
-      DEP_MINOR=${DEP#*/}
-      if [ ${DEP_MINOR} == ${DEP} ]; then
-        DEP_MINOR="$(get_dep_default_version "${DEP_MAJOR}")"
-      fi
+      DEP_MAJOR="$(get_dep_major "$DEP")"
+      DEP_MINOR="$(get_dep_minor "$DEP")"
       if [ "${DEP_MINOR}" == "" ]; then
+        DEP_MINOR="$(get_dep_minor_default "${DEP_MAJOR}")"
+      fi
+      if [ "${DEP_MINOR}" == "NULL" ]; then
+        continue
+      elif [ "${DEP_MINOR}" == "" ]; then
         GIS_PACKAGE_DEPS_FULL_NAME="${GIS_PACKAGE_DEPS_FULL_NAME} ${DEP_MAJOR}"
       else
         GIS_PACKAGE_DEPS_FULL_NAME="${GIS_PACKAGE_DEPS_FULL_NAME} ${DEP_MAJOR}/${DEP_MINOR}"
@@ -45,14 +69,13 @@ parse_full_dep_names() {
 setup_env() {
   : ${GIS_PACKAGE_NAME_MAJOR:?}
   if test $# -ne 1; then
-    GIS_PACKAGE_NAME_MINOR=$(get_dep_default_version "${GIS_PACKAGE_NAME_MAJOR}")
+    GIS_PACKAGE_NAME_MINOR=$(get_dep_minor_default "${GIS_PACKAGE_NAME_MAJOR}")
   else
     GIS_PACKAGE_NAME_MINOR=${1}
   fi
   export GIS_PACKAGE_NAME_MINOR
 
-#  GIS_PACKAGE_VERSION=${GIS_PACKAGE_NAME_MINOR%-*}
-#  GIS_BUILD_TYPE=${GIS_PACKAGE_NAME_MINOR#*-}
+  # Parse the GIS_PACKAGE_NAME_MINOR to get the `build type` and `extra`.
   IFS='-' read -ra MINOR_ARRAY <<< "$GIS_PACKAGE_NAME_MINOR"
   IFS=" "
   GIS_PACKAGE_VERSION=${MINOR_ARRAY[0]}
@@ -68,9 +91,9 @@ setup_env() {
   fi
   export GIS_PACKAGE_VERSION GIS_BUILD_TYPE GIS_PACKAGE_NAME_MINOR_EXTRA
 
-  : ${GIS_INSTALL_ROOT:?} ${GIS_PACKAGE_VERSION:?} ${GIS_BUILD_TYPE:?}
+  : ${GIS_INSTALL_ROOT:?} ${GIS_PACKAGE_VERSION:?}
 
-
+  # If this is a `local` build, get the local path to the source code.
   if [ "${GIS_PACKAGE_VERSION}" == "local" ] && [ "${GIS_SRC_PATH}" == "" ]; then
       DIR_SRC_PTR=GIS_${GIS_PACKAGE_NAME_MAJOR^^}_LOCAL_SRC_PATH
       : ${!DIR_SRC_PTR:?}
@@ -88,16 +111,16 @@ setup_env() {
   fi
 
   GIS_INSTALL_PATH=${GIS_INSTALL_ROOT}/${GIS_PACKAGE_NAME_MAJOR}/${GIS_PACKAGE_NAME_MINOR}
-  if [ "${GIS_BUILD_DIR}" == "" ]; then
+  if [ "${GIS_BUILD_PATH_ROOT}" == "" ]; then
     GIS_BUILD_PATH=${GIS_INSTALL_PATH}/build
   else
-    GIS_BUILD_PATH=${GIS_BUILD_DIR}/${GIS_PACKAGE_NAME_MAJOR}/${GIS_PACKAGE_NAME_MINOR}
+    GIS_BUILD_PATH=${GIS_BUILD_PATH_ROOT}/${GIS_PACKAGE_NAME_MAJOR}/${GIS_PACKAGE_NAME_MINOR}
   fi
   GIS_MODULE_FILE_PATH=${GIS_MODULE_ROOT}/${GIS_PACKAGE_NAME_MAJOR}/${GIS_PACKAGE_NAME_MINOR}
 
   export GIS_SCRIPT_ROOT GIS_SRC_PATH GIS_BUILD_PATH GIS_INSTALL_PATH GIS_MODULE_FILE_PATH GIS_PACKAGE_NAME_MINOR
-  export CFLAGS="${CFLAGS} -fPIC -march=native"
-  export CXXFLAGS="${CXXFLAGS} -fPIC -march=native"
+  export CFLAGS="${CFLAGS} -fPIC"
+  export CXXFLAGS="${CXXFLAGS} -fPIC"
 
   parse_full_dep_names
   module purge
@@ -125,11 +148,11 @@ wget_url() {
 
 run_cmake_configure() {
   if [ "${GIS_BUILD_TYPE}" == "debug" ]; then
-    GIS_BUILD_TYPE="Debug"
+    GIS_CMAKE_BUILD_TYPE="Debug"
   elif [ "${GIS_BUILD_TYPE}" == "release" ]; then
-    GIS_BUILD_TYPE="Release"
+    GIS_CMAKE_BUILD_TYPE="Release"
   elif [ "${GIS_BUILD_TYPE}" == "relWithDebInfo" ]; then
-    GIS_BUILD_TYPE="RelWithDebInfo"
+    GIS_CMAKE_BUILD_TYPE="RelWithDebInfo"
   fi
   mkdir -p ${GIS_BUILD_PATH}
   cmake -H${GIS_SRC_PATH} \
@@ -140,7 +163,7 @@ run_cmake_configure() {
         -DCMAKE_C_FLAGS="${CFLAGS}" \
         -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
         -DCMAKE_EXE_LINKER_FLAGS="${LINKER_FLAGS}" \
-        -DCMAKE_BUILD_TYPE=${GIS_BUILD_TYPE} \
+        -DCMAKE_BUILD_TYPE=${GIS_CMAKE_BUILD_TYPE} \
         -DCMAKE_VERBOSE_MAKEFILE=ON \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
         ${GIS_CMAKE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
@@ -207,7 +230,7 @@ EOF
 create_module() {
   mkdir -p "$(dirname ${GIS_MODULE_FILE_PATH})"
 
-  if [ "${GIS_PACKAGE_NAME_MINOR}" == "$(get_dep_default_version "${GIS_PACKAGE_NAME_MAJOR}")" ]; then
+  if [ "${GIS_PACKAGE_NAME_MINOR}" == "$(get_dep_minor_default "${GIS_PACKAGE_NAME_MAJOR}")" ]; then
     set_module_default
   fi
 

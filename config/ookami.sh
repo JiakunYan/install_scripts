@@ -2,20 +2,19 @@
 
 export GIS_INSTALL_ROOT=~/opt
 
-export GIS_PRELOAD_PACKAGES="gcc/10.3.1"
+export GIS_PRELOAD_PACKAGES="shared slurm/slurm/19.05.7"
 
 GIS_DEFAULT_PACKAGE_ARRAY=(
-    "cmake/3.23.2"
-    "ninja/1.11.1"
+    "cmake/3.24.2" # Provided by Ookami
+    "ninja/NULL" # Installed in a default location
     "jemalloc/5.3.0"
-    "libfabric/1.15.1"
-    "boost/1.75.0-release"
-    "hwloc/2.7.1"
-    "openmpi/4.1.4"
+    "boost/1.71.0" # Provided by Ookami
+    "hwloc/2.8.0" # Provided by Ookami
+    "openmpi" # Provided by Ookami
     "mpich/4.0.2"
     "Vc/1.4.3"
-    "papi/6.0.0"
-    "hdf5/1.10.7"
+    "papi/6.0.0" # Provided by Ookami
+    "hdf5/1.12.0"
     "silo/4.11"
     "lci/local"
     "hpx/local"
@@ -30,3 +29,5 @@ export GIS_PARALLEL_BUILD=16
 export GIS_COMM_BACKEND=ibv
 export GIS_WITH_CUDA=OFF
 export GIS_MPI="openmpi"
+export CFLAGS="-mcpu=a64fx"
+export CXXFLAGS="-mcpu=a64fx"

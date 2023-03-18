@@ -2,7 +2,7 @@
 
 export GIS_INSTALL_ROOT=~/opt
 
-GIS_DEFAULT_PACKAGES=(
+GIS_DEFAULT_PACKAGE_ARRAY=(
     "cmake/3.23.4"
     "ninja/1.11.1"
     "jemalloc/5.3.0"
@@ -23,15 +23,7 @@ GIS_DEFAULT_PACKAGES=(
     "pmix/4.2.2"
     "prrte/3.0.0"
 )
-for package in "${GIS_DEFAULT_PACKAGES[@]}"
-do
-  major=${package%/*}
-  minor=${package#*/}
-  echo "export GIS_${major}_DEFAULT_VERSION=${minor}"
-  export GIS_${major}_DEFAULT_VERSION=${minor}
-  unset major
-  unset minor
-done
+export GIS_DEFAULT_PACKAGES="${GIS_DEFAULT_PACKAGE_ARRAY[*]}"
 export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
 export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
 

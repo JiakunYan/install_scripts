@@ -24,8 +24,12 @@ if [ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == "pcounter" ]; then
   LCI_USE_PERFORMANCE_COUNTER=ON
   echo "Explicitly enable the performance counter"
 fi
-if [ "$(get_platform_name)" == "perlmutter" ]; then
-  CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} -DLCI_OFI_PROVIDER_HINT_DEFAULT=cxi"
+#We shouldn't need this anymore
+#if [ "$(get_platform_name)" == "perlmutter" ]; then
+#  CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} -DLCI_OFI_PROVIDER_HINT_DEFAULT=cxi"
+#fi
+if [ "$(get_platform_name)" == "ookami" ]; then
+  CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} -DLCI_OPTIMIZE_FOR_NATIVE=OFF"
 fi
 run_cmake_configure \
     -DLCI_SERVER=${GIS_COMM_BACKEND} \
