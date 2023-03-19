@@ -34,3 +34,5 @@ export GIS_WITH_CUDA=OFF
 export CC=gcc
 export CXX=g++
 export GIS_MPI="openmpi"
+export CFLAGS="-march=native"
+export CXXFLAGS="-march=native"

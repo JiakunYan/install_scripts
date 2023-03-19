@@ -37,5 +37,5 @@ export CFLAGS="-march=native"
 export CXXFLAGS="-march=native"
 # Platform-specific variable.
 # Perlmutter needs this in order to run cray-mpich correctly.
-export CRAY_ACCEL_TARGET=nvidia80
-export LINKER_FLAGS="-L/opt/cray/pe/mpich/8.1.22/gtl/lib -lmpi_gtl_cuda"
+#export CRAY_ACCEL_TARGET=nvidia80
+#export LINKER_FLAGS="-L/opt/cray/pe/mpich/8.1.24/gtl/lib -lmpi_gtl_cuda"
