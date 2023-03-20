@@ -24,7 +24,7 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
 )
 export GIS_DEFAULT_PACKAGES="${GIS_DEFAULT_PACKAGE_ARRAY[*]}"
 export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
-export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx-lci-pool
+export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
 
 export GIS_PARALLEL_BUILD=16
 export GIS_COMM_BACKEND=ibv

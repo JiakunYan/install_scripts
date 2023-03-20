@@ -19,6 +19,11 @@ HPX_WITH_EXAMPLES=OFF
 if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == *"example"* ]]; then
   HPX_WITH_EXAMPLES=ON
 fi
+if [ "$(get_platform_name)" == "ookami" ]; then
+  CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} -DHPX_WITH_CXX_STANDARD=20 -DHPX_WITH_DATAPAR_BACKEND=STD_EXPERIMENTAL_SIMD"
+  BOOST_ROOT=$(echo "$CPATH" | tr ':' '\n' | grep boost)/..
+  export BOOST_ROOT
+fi
 
 run_cmake_configure \
     -GNinja \

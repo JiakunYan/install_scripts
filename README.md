@@ -4,9 +4,16 @@
 This repo is used to hold installation scripts for common packages.
 The idea is to make them general enough to be used on multiple platforms.
 
+## Setup
+1. Write a platform specific configuration file `config/[platform-name].sh`.
+2. Modify the `get_platform_name` function in `include/common.sh` to give the script a way to identify your platform.
+3. Add the following line to your `~/.bashrc`.
+```
+module use ~/opt/modulefiles # Assume you set GIS_INSTALL_ROOT to ~/opt
+```
+
 ## Usage
 ```bash
-source config/[platform].sh
 ./run.sh build [package_name]/[version]-[release/debug]
 ```
 By default, the script will install the specified package at 
