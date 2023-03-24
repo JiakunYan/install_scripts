@@ -10,8 +10,9 @@ export GIS_DOWNLOAD_URL="https://github.com/JiakunYan/octotiger.git"
 wget_url
 
 OCTOTIGER_ARCH_FLAG="-march=native"
-if [ "$(get_platform_name)" == "perlmutter" ]; then
+if [ "$(get_platform_name)" == "ookami" ]; then
   OCTOTIGER_ARCH_FLAG="-mcpu=a64fx"
+  CONFIG_EXTRA_ARGS="-DOCTOTIGER_WITH_BLAST_TEST=OFF"
 fi
 
 run_cmake_configure \
@@ -29,7 +30,9 @@ run_cmake_configure \
     -DOCTOTIGER_WITH_FORCE_SCALAR_KOKKOS_SIMD=OFF \
     -DOCTOTIGER_WITH_STD_EXPERIMENTAL_SIMD=OFF \
     -DOCTOTIGER_ARCH_FLAG=${OCTOTIGER_ARCH_FLAG} \
-    -DSilo_DIR=$SILO_ROOT
+    -DSilo_DIR=$SILO_ROOT \
+    ${CONFIG_EXTRA_ARGS}
+
 run_cmake_build
 run_cmake_install
 cp_log

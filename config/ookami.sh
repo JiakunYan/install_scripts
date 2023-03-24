@@ -18,12 +18,13 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
     "silo/4.11"
     "lci/local"
     "hpx/local"
-    "cppuddle/master"
+    "cppuddle/local"
     "octotiger/master"
 )
 export GIS_DEFAULT_PACKAGES="${GIS_DEFAULT_PACKAGE_ARRAY[*]}"
 export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
 export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
+export GIS_CPPUDDLE_LOCAL_SRC_PATH=~/workspace/CPPuddle
 
 export GIS_PARALLEL_BUILD=16
 export GIS_COMM_BACKEND=ibv
