@@ -4,6 +4,7 @@ source include/common.sh
 
 export GIS_PACKAGE_NAME_MAJOR=libfabric
 setup_env "$@"
+load_module
 
 export GIS_DOWNLOAD_URL="https://github.com/ofiwg/libfabric/releases/download/v${GIS_PACKAGE_VERSION}/libfabric-${GIS_PACKAGE_VERSION}.tar.bz2"
 wget_url

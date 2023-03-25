@@ -10,6 +10,7 @@ if [ "$(get_platform_name)" == "ookami" ]; then
   export CXXFLAGS=""
 fi
 setup_env "$@"
+load_module
 
 export GIS_DOWNLOAD_URL="https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-${GIS_PACKAGE_VERSION//./_}.tar.gz"
 wget_url

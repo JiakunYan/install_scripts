@@ -4,15 +4,30 @@ source include/common.sh
 
 export GIS_PACKAGE_DEPS=("cmake" "Vc" "hpx" "silo" "cppuddle")
 export GIS_PACKAGE_NAME_MAJOR=octotiger
+if [ "$(get_platform_name)" == "ookami" ]; then
+  export CFLAGS="${CFLAGS} -msve-vector-bits=512"
+  export CXXFLAGS="${CFLAGS} -msve-vector-bits=512"
+fi
 setup_env "$@"
+if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == *"kokkos"* ]]; then
+  echo "Build Octo-Tiger with Kokkos"
+  GIS_PACKAGE_DEPS+=("kokkos" "hpx-kokkos")
+  CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} \
+    -DOCTOTIGER_WITH_CXX20=ON \
+    -DOCTOTIGER_WITH_KOKKOS=ON
+    -DOCTOTIGER_KOKKOS_SIMD_LIBRARY=STD \
+    -DOCTOTIGER_KOKKOS_SIMD_EXTENSION=SVE"
+fi
+load_module
 
-export GIS_DOWNLOAD_URL="https://github.com/JiakunYan/octotiger.git"
+export GIS_DOWNLOAD_URL="https://github.com/STEllAR-GROUP/octotiger.git"
 wget_url
 
 OCTOTIGER_ARCH_FLAG="-march=native"
 if [ "$(get_platform_name)" == "ookami" ]; then
-  OCTOTIGER_ARCH_FLAG="-mcpu=a64fx"
-  CONFIG_EXTRA_ARGS="-DOCTOTIGER_WITH_BLAST_TEST=OFF"
+  OCTOTIGER_ARCH_FLAG="-mcpu=a64fx -msve-vector-bits=512 "
+  CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} \
+    -DOCTOTIGER_WITH_BLAST_TEST=OFF"
 fi
 
 run_cmake_configure \
@@ -29,7 +44,7 @@ run_cmake_configure \
     -DOCTOTIGER_WITH_MULTIPOLE_HOST_HPX_EXECUTOR=ON \
     -DOCTOTIGER_WITH_FORCE_SCALAR_KOKKOS_SIMD=OFF \
     -DOCTOTIGER_WITH_STD_EXPERIMENTAL_SIMD=OFF \
-    -DOCTOTIGER_ARCH_FLAG=${OCTOTIGER_ARCH_FLAG} \
+    -DOCTOTIGER_ARCH_FLAG="${OCTOTIGER_ARCH_FLAG}" \
     -DSilo_DIR=$SILO_ROOT \
     ${CONFIG_EXTRA_ARGS}
 

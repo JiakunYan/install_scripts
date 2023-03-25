@@ -5,6 +5,7 @@ source include/common.sh
 export GIS_PACKAGE_DEPS=("hwloc")
 export GIS_PACKAGE_NAME_MAJOR=openmpi
 setup_env "$@"
+load_module
 
 export GIS_DOWNLOAD_URL="https://download.open-mpi.org/release/open-mpi/v${GIS_PACKAGE_VERSION::-2}/openmpi-${GIS_PACKAGE_VERSION}.tar.gz"
 wget_url

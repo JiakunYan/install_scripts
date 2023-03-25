@@ -4,6 +4,7 @@ source include/common.sh
 
 export GIS_PACKAGE_NAME_MAJOR=ucx
 setup_env "$@"
+load_module
 
 export GIS_BRANCH=v${GIS_PACKAGE_VERSION}
 export GIS_DOWNLOAD_URL="https://github.com/openucx/ucx.git"

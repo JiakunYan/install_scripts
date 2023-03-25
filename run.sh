@@ -12,7 +12,7 @@ build() {
       minor="$(get_dep_minor "$package")"
       if [ -f ./build-${major}.sh ]; then
         echo "./build-${major}.sh ${minor}"
-        ./build-${major}.sh ${minor}
+        bash ./build-${major}.sh ${minor}
       fi
   done
 }

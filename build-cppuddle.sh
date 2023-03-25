@@ -5,6 +5,7 @@ source include/common.sh
 export GIS_PACKAGE_DEPS=("hpx")
 export GIS_PACKAGE_NAME_MAJOR=cppuddle
 setup_env "$@"
+load_module
 
 export GIS_DOWNLOAD_URL="https://github.com/JiakunYan/CPPuddle.git"
 wget_url

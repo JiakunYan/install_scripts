@@ -4,6 +4,7 @@ source include/common.sh
 
 export GIS_PACKAGE_NAME_MAJOR=boost
 setup_env "$@"
+load_module
 
 export GIS_DOWNLOAD_URL="https://boostorg.jfrog.io/artifactory/main/release/${GIS_PACKAGE_VERSION}/source/boost_${GIS_PACKAGE_VERSION//./_}.tar.gz"
 wget_url

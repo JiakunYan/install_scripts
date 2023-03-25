@@ -18,13 +18,19 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
     "silo/4.11"
     "lci/local"
     "hpx/local"
+    "kokkos/2640cf70de338618a7e4fe10590b06bc1c239f4c"
+#    "kokkos/master"
+#    "hpx-kokkos/20a44967c742f5a7670b4dff9658d9973bf849f2"
+    "hpx-kokkos/local"
     "cppuddle/local"
-    "octotiger/master"
+    "octotiger/local-release-kokkos"
 )
 export GIS_DEFAULT_PACKAGES="${GIS_DEFAULT_PACKAGE_ARRAY[*]}"
 export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
 export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
 export GIS_CPPUDDLE_LOCAL_SRC_PATH=~/workspace/CPPuddle
+export GIS_HPX_KOKKOS_LOCAL_SRC_PATH=~/workspace/hpx-kokkos
+export GIS_OCTOTIGER_LOCAL_SRC_PATH=~/workspace/octotiger
 
 export GIS_PARALLEL_BUILD=16
 export GIS_COMM_BACKEND=ibv

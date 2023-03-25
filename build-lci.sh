@@ -11,6 +11,7 @@ fi
 export GIS_PACKAGE_DEPS
 export GIS_PACKAGE_NAME_MAJOR=lci
 setup_env "$@"
+load_module
 
 export GIS_DOWNLOAD_URL="https://github.com/uiuc-hpc/LC.git"
 wget_url
@@ -20,7 +21,7 @@ if [ ${GIS_BUILD_TYPE} == "debug" ]; then
   CONFIG_EXTRA_ARGS="-DLCI_DEBUG=ON"
   LCI_USE_PERFORMANCE_COUNTER=ON
 fi
-if [ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == "pcounter" ]; then
+if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == *"pcounter"* ]]; then
   LCI_USE_PERFORMANCE_COUNTER=ON
   echo "Explicitly enable the performance counter"
 fi

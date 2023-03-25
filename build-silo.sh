@@ -10,6 +10,7 @@ if [ "$(get_platform_name)" == "ookami" ]; then
   export CXXFLAGS=""
 fi
 setup_env "$@"
+load_module
 
 export GIS_DOWNLOAD_URL="https://github.com/LLNL/Silo/releases/download/v${GIS_PACKAGE_VERSION}/silo-${GIS_PACKAGE_VERSION}-bsd.tar.gz"
 wget_url

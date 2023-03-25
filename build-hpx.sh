@@ -8,6 +8,7 @@ if [ "$(get_platform_name)" == "perlmutter" ]; then
 fi
 export GIS_PACKAGE_NAME_MAJOR=hpx
 setup_env "$@"
+load_module
 
 export GIS_DOWNLOAD_URL="https://github.com/uiuc-hpc/hpx.git"
 wget_url

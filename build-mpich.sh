@@ -4,6 +4,7 @@ source include/common.sh
 
 export GIS_PACKAGE_NAME_MAJOR=mpich
 setup_env "$@"
+load_module
 
 export GIS_DOWNLOAD_URL="https://www.mpich.org/static/downloads/${GIS_PACKAGE_VERSION}/mpich-${GIS_PACKAGE_VERSION}.tar.gz"
 wget_url

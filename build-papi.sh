@@ -4,6 +4,7 @@ source include/common.sh
 
 export GIS_PACKAGE_NAME_MAJOR=papi
 setup_env "$@"
+load_module
 
 export GIS_DOWNLOAD_URL="http://icl.utk.edu/projects/papi/downloads/papi-${GIS_PACKAGE_VERSION}.tar.gz"
 wget_url

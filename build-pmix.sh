@@ -4,6 +4,7 @@ source include/common.sh
 
 export GIS_PACKAGE_NAME_MAJOR=pmix
 setup_env "$@"
+load_module
 
 export GIS_DOWNLOAD_URL="https://github.com/openpmix/openpmix/releases/download/v${GIS_PACKAGE_VERSION}/pmix-${GIS_PACKAGE_VERSION}.tar.gz"
 wget_url

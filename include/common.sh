@@ -38,7 +38,7 @@ get_dep_minor_default() {
   DEP_MAJOR=${1}
   read -ra GIS_DEFAULT_PACKAGE_ARRAY <<< "$GIS_DEFAULT_PACKAGES"
   for string in "${GIS_DEFAULT_PACKAGE_ARRAY[@]}"; do
-      if [[ "$string" == "${DEP_MAJOR}"* ]]; then
+      if [[ "$string" == "${DEP_MAJOR}" ]] || [[ "$string" == "${DEP_MAJOR}"/* ]]; then
           DEP_MINOR="$(get_dep_minor "$string")"
       fi
   done
@@ -67,6 +67,9 @@ parse_full_dep_names() {
 }
 
 setup_env() {
+  GIS_ROOT=$(realpath "$(dirname "$0")")
+  export GIS_ROOT
+
   : ${GIS_PACKAGE_NAME_MAJOR:?}
   if test $# -ne 1; then
     GIS_PACKAGE_NAME_MINOR=$(get_dep_minor_default "${GIS_PACKAGE_NAME_MAJOR}")
@@ -95,7 +98,8 @@ setup_env() {
 
   # If this is a `local` build, get the local path to the source code.
   if [ "${GIS_PACKAGE_VERSION}" == "local" ] && [ "${GIS_SRC_PATH}" == "" ]; then
-      DIR_SRC_PTR=GIS_${GIS_PACKAGE_NAME_MAJOR^^}_LOCAL_SRC_PATH
+      NAME_MAJOR_UPPER=$(echo ${GIS_PACKAGE_NAME_MAJOR} | tr '[:lower:]' '[:upper:]' | tr '-' '_')
+      DIR_SRC_PTR=GIS_${NAME_MAJOR_UPPER}_LOCAL_SRC_PATH
       : ${!DIR_SRC_PTR:?}
       GIS_SRC_PATH=${!DIR_SRC_PTR}
   fi
@@ -126,7 +130,9 @@ setup_env() {
   export GIS_SCRIPT_ROOT GIS_SRC_PATH GIS_BUILD_PATH GIS_INSTALL_PATH GIS_MODULE_FILE_PATH GIS_PACKAGE_NAME_MINOR
   export CFLAGS="${CFLAGS} -fPIC"
   export CXXFLAGS="${CXXFLAGS} -fPIC"
+}
 
+load_module() {
   parse_full_dep_names
   module purge
   if [ "${GIS_PACKAGE_DEPS_FULL_NAME}" != "" ]; then
@@ -147,6 +153,7 @@ wget_url() {
         *.bz2) wget -O- ${GIS_DOWNLOAD_URL} | tar xj --strip-components=1;;
         *.git) git clone --branch=${GIS_BRANCH:-${GIS_PACKAGE_VERSION}} --depth=1 ${GIS_DOWNLOAD_URL} ${GIS_SRC_PATH}
                git submodule update --init --recursive ;;
+        *) echo "Unknown download url ${GIS_DOWNLOAD_URL}. Give up!" ; exit 1 ;;
       esac
   fi
 }
@@ -245,6 +252,9 @@ create_module() {
 module load ${GIS_PACKAGE_DEPS_FULL_NAME}"
   fi
 
+  NAME_MAJOR_ORIGIN=$(echo ${GIS_PACKAGE_NAME_MAJOR} | tr '-' '_')
+  NAME_MAJOR_UPPER=$(echo ${GIS_PACKAGE_NAME_MAJOR} | tr '[:lower:]' '[:upper:]' | tr '-' '_')
+
   cat >${GIS_MODULE_FILE_PATH} <<EOF
 #%Module
 proc ModulesHelp { } {
@@ -260,12 +270,12 @@ prepend-path    LD_LIBRARY_PATH    \$root/lib:\$root/lib64
 prepend-path    LIBRARY_PATH       \$root/lib:\$root/lib64
 prepend-path    MANPATH            \$root/share/man
 prepend-path    PKG_CONFIG_PATH    \$root/lib/pkgconfig
-setenv ${GIS_PACKAGE_NAME_MAJOR^^}_ROOT      \$root
-setenv ${GIS_PACKAGE_NAME_MAJOR}_ROOT        \$root
-setenv ${GIS_PACKAGE_NAME_MAJOR^^}_DIR       \$root
-setenv ${GIS_PACKAGE_NAME_MAJOR}_DIR         \$root
-setenv ${GIS_PACKAGE_NAME_MAJOR^^}_VERSION   ${GIS_PACKAGE_NAME_MINOR}
-setenv ${GIS_PACKAGE_NAME_MAJOR}_VERSION     ${GIS_PACKAGE_NAME_MINOR}
+setenv ${NAME_MAJOR_UPPER}_ROOT      \$root
+setenv ${NAME_MAJOR_ORIGIN}_ROOT        \$root
+setenv ${NAME_MAJOR_UPPER}_DIR       \$root
+setenv ${NAME_MAJOR_ORIGIN}_DIR         \$root
+setenv ${NAME_MAJOR_UPPER}_VERSION   ${GIS_PACKAGE_NAME_MINOR}
+setenv ${NAME_MAJOR_ORIGIN}_VERSION     ${GIS_PACKAGE_NAME_MINOR}
 ${GIS_MODULE_EXTRA_LINES}
 EOF
 }
