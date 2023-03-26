@@ -19,9 +19,11 @@ load_module
 export GIS_DOWNLOAD_URL="https://github.com/STEllAR-GROUP/octotiger.git"
 wget_url
 if [ "$(get_platform_name)" == "ookami" ] && [ "${GIS_PACKAGE_VERSION}" == "reconstruct_simd_optimization" ]; then
+  if [[ ! -d ${GIS_SRC_PATH} ]]; then
     cd ${GIS_SRC_PATH} || exit
     echo "Apply patch to Octo-Tiger"
     git apply ${GIS_ROOT}/patch/ookami-octotiger.patch
+  fi
 fi
 
 OCTOTIGER_ARCH_FLAG="-march=native"
