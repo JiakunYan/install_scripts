@@ -20,10 +20,9 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
     "hpx/local"
     "kokkos/2640cf70de338618a7e4fe10590b06bc1c239f4c"
 #    "kokkos/master"
-#    "hpx-kokkos/20a44967c742f5a7670b4dff9658d9973bf849f2"
-    "hpx-kokkos/local"
-    "cppuddle/local"
-    "octotiger/local-release-kokkos"
+    "hpx-kokkos/20a44967c742f5a7670b4dff9658d9973bf849f2"
+    "cppuddle/local" # Waiting for https://github.com/SC-SGS/CPPuddle/pull/17 to be merged
+    "octotiger/reconstruct_simd_optimization-release-kokkos"
 )
 export GIS_DEFAULT_PACKAGES="${GIS_DEFAULT_PACKAGE_ARRAY[*]}"
 export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
@@ -39,5 +38,7 @@ export GIS_WITH_CUDA=OFF
 export CC=gcc
 export CXX=g++
 export GIS_MPI="openmpi"
-export CFLAGS="-mcpu=a64fx"
-export CXXFLAGS="-mcpu=a64fx"
+#export CFLAGS="-fPIC -mcpu=a64fx -march=armv8.2-a+sve -ffast-math"
+export CFLAGS="-fPIC -mcpu=a64fx"
+#export CXXFLAGS="-fPIC -mcpu=a64fx -march=armv8.2-a+sve -ffast-math"
+export CXXFLAGS="-fPIC -mcpu=a64fx"

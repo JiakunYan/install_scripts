@@ -33,8 +33,8 @@ export CXX=g++
 export GIS_MPI="cray-mpich"
 # Tested with `gcc -march=native -E -v - </dev/null 2>&1`
 # Compiling on Perlmutter login node has the same flags as compiling on the compute node.
-export CFLAGS="-march=native"
-export CXXFLAGS="-march=native"
+export CFLAGS="-fPIC -march=native"
+export CXXFLAGS="-fPIC -march=native"
 # Platform-specific variable.
 # Perlmutter needs this in order to run cray-mpich correctly.
 #export CRAY_ACCEL_TARGET=nvidia80

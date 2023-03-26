@@ -30,5 +30,5 @@ export GIS_PARALLEL_BUILD=16
 export GIS_COMM_BACKEND=ibv
 export GIS_WITH_CUDA=OFF
 export GIS_MPI="openmpi"
-export CFLAGS="-march=native"
-export CXXFLAGS="-march=native"
+export CFLAGS="-fPIC -march=native"
+export CXXFLAGS="-fPIC -march=native"

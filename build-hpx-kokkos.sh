@@ -16,6 +16,7 @@ if [ "$(get_platform_name)" == "ookami" ] && [ "${GIS_PACKAGE_VERSION}" == "20a4
       git checkout ${GIS_PACKAGE_VERSION}
       echo "Apply patch to HPX-Kokkos"
       git apply ${GIS_ROOT}/patch/ookami-hpx-kokkos.patch
+      git apply ${GIS_ROOT}/patch/ookami-hpx-kokkos2.patch
   fi
 else
   wget_url
