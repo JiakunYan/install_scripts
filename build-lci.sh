@@ -26,12 +26,12 @@ if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == *"pcounter"* ]]; then
   echo "Explicitly enable the performance counter"
 fi
 if [ "$(get_platform_name)" == "ookami" ]; then
-  CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} -DLCI_OPTIMIZE_FOR_NATIVE=OFF"
+  CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} \
+  -DLCI_OPTIMIZE_FOR_NATIVE=OFF \
+  -DLCI_CACHE_SIZE=256"
 fi
 run_cmake_configure \
     -DLCI_SERVER=${GIS_COMM_BACKEND} \
-    -DLCI_PACKET_SIZE_DEFAULT=69632 \
-    -DLCI_SERVER_NUM_PKTS_DEFAULT=16384 \
     -DLCI_USE_PERFORMANCE_COUNTER=${LCI_USE_PERFORMANCE_COUNTER} \
     -DLCI_USE_PAPI=ON \
     ${CONFIG_EXTRA_ARGS}

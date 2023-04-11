@@ -10,6 +10,8 @@ get_platform_name() {
     echo "perlmutter"
   elif [[ "${HOSTNAME}" =~ "rostam" ]]; then
     echo "rostam"
+  elif [[ "${HOSTNAME}" =~ "delta.internal.ncsa.edu" ]]; then
+    echo "delta"
   else
     echo "pc"
   fi

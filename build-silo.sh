@@ -25,6 +25,9 @@ if [ "$(get_platform_name)" == "ookami" ]; then
   export CFLAGS=""
   export CXXFLAGS=""
 fi
+if [ "$(get_platform_name)" == "delta" ] && [ "$(get_dep_minor_default "hdf5")" == "1.8.12" ]; then
+  HDF5_ROOT=$HDF5_HOME
+fi
 run_configure --with-hdf5=${HDF5_ROOT}/include,${HDF5_ROOT}/lib ${RELEASE_EXTRA_ARGS}
 sed -i.bak -e '866d;867d' ${GIS_BUILD_PATH}/src/silo/Makefile
 run_make
