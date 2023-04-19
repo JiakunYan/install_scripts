@@ -2,7 +2,7 @@
 
 source include/common.sh
 
-export GIS_PACKAGE_DEPS=("hwloc")
+export GIS_PACKAGE_DEPS=("hwloc" "ucx")
 export GIS_PACKAGE_NAME_MAJOR=openmpi
 setup_env "$@"
 load_module
@@ -11,7 +11,7 @@ export GIS_DOWNLOAD_URL="https://download.open-mpi.org/release/open-mpi/v${GIS_P
 wget_url
 
 unset HWLOC_VERSION
-run_configure ${OMPI_OPTION}
+run_configure --with-ucx
 run_make
 
 cp_log

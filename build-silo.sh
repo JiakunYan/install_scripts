@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# You may need `sudo apt-get install gfortran`
+
 source include/common.sh
 
 export GIS_PACKAGE_DEPS=("cmake" "hdf5")

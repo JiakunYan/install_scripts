@@ -21,6 +21,7 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
     "hpx/local"
     "cppuddle/master"
     "octotiger/master"
+    "ucx/1.14.0"
 )
 export GIS_DEFAULT_PACKAGES="${GIS_DEFAULT_PACKAGE_ARRAY[*]}"
 export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC

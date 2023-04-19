@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# if "No package 'libnl' found", try `sudo apt-get install libnl-3-dev`.
+# if "No package 'libnl-route-3.0' found", try `sudo apt-get install libnl-route-3-dev`
+
 source include/common.sh
 
 export GIS_PACKAGE_DEPS=("cmake")

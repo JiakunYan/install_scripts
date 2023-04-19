@@ -18,6 +18,10 @@ if [ ${GIS_BUILD_TYPE} == "debug" ]; then
 elif [ ${GIS_BUILD_TYPE} == "release" ]; then
   export GIS_CONFIGURE_EXE=configure-release
 fi
+if [ ! -f ${GIS_SRC_PATH}/configure ]; then
+  cd ${GIS_SRC_PATH} || exit
+  ${GIS_SRC_PATH}/autogen.sh
+fi
 run_configure
 run_make
 

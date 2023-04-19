@@ -3,6 +3,7 @@
 export GIS_INSTALL_ROOT=~/opt
 
 GIS_DEFAULT_PACKAGE_ARRAY=(
+    "module/5.2.0"
     "cmake/3.23.4"
     "ninja/1.11.1"
     "jemalloc/5.3.0"
@@ -13,7 +14,7 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
     "openmpi/4.1.4"
     "mpich/4.0.2"
     "Vc/1.4.3"
-    "papi/6.0.0"
+    "papi/7.0.0"
     "hdf5/1.8.12"
     "silo/4.11"
     "lci/local-debug"
@@ -22,6 +23,7 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
     "octotiger/master-debug"
     "pmix/4.2.2"
     "prrte/3.0.0"
+    "ucx/1.14.0"
 )
 export GIS_DEFAULT_PACKAGES="${GIS_DEFAULT_PACKAGE_ARRAY[*]}"
 export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC

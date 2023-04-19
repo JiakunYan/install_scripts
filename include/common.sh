@@ -205,14 +205,19 @@ cp_log() {
 }
 
 run_configure() {
-  GIS_CONFIGURE_PATH=${GIS_CONFIGURE_PATH:-${GIS_SRC_PATH}}
+  mkdir -p ${GIS_BUILD_PATH}
+  cd ${GIS_BUILD_PATH} || exit 1
+  if [ "${GIS_BUILD_CP_SOURCE}" == "ON" ]; then
+    cp -a ${GIS_SRC_PATH}/. ${GIS_BUILD_PATH}/
+    GIS_CONFIGURE_PATH=${GIS_CONFIGURE_PATH:-${GIS_BUILD_PATH}}
+  else
+    GIS_CONFIGURE_PATH=${GIS_CONFIGURE_PATH:-${GIS_SRC_PATH}}
+  fi
   GIS_CONFIGURE_EXE=${GIS_CONFIGURE_EXE:-configure}
   if [ ! -f "${GIS_CONFIGURE_PATH}/${GIS_CONFIGURE_EXE}" ]; then
     GIS_AUTOGEN_PATH=${GIS_AUTOGEN_PATH:-${GIS_CONFIGURE_PATH}}
     ${GIS_AUTOGEN_PATH}/autogen.sh
   fi
-  mkdir -p ${GIS_BUILD_PATH}
-  cd ${GIS_BUILD_PATH} || exit 1
   if [ ${GIS_BUILD_TYPE} == "debug" ]; then
      CC=${CC} CXX=${CXX} CPPFLAGS="${CPPFLAGS} -DDEBUG" CFLAGS="${CFLAGS} -g -O0" CXXFLAGS="${CXXFLAGS} -g -O0" ${GIS_CONFIGURE_PATH}/${GIS_CONFIGURE_EXE} --prefix=${GIS_INSTALL_PATH} --enable-debug \
                           ${GIS_CONFIGURE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
