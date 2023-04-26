@@ -193,9 +193,15 @@ cp_log() {
   mkdir -p ${GIS_INSTALL_PATH}/log
   env > ${GIS_INSTALL_PATH}/log/env.log
   module list > ${GIS_INSTALL_PATH}/log/module.log
-  cp ${GIS_SCRIPT_ROOT}/build-${GIS_PACKAGE_NAME_MAJOR}.sh ${GIS_INSTALL_PATH}/log
-  cp -r ${GIS_SCRIPT_ROOT}/include ${GIS_INSTALL_PATH}/log
-  cp -r ${GIS_SCRIPT_ROOT}/config ${GIS_INSTALL_PATH}/log
+  if [ -f ${GIS_SCRIPT_ROOT}/build-${GIS_PACKAGE_NAME_MAJOR}.sh ]; then
+    cp ${GIS_SCRIPT_ROOT}/build-${GIS_PACKAGE_NAME_MAJOR}.sh ${GIS_INSTALL_PATH}/log
+  fi
+  if [ -d ${GIS_SCRIPT_ROOT}/include ]; then
+    cp -r ${GIS_SCRIPT_ROOT}/include ${GIS_INSTALL_PATH}/log
+  fi
+  if [ -d ${GIS_SCRIPT_ROOT}/config ]; then
+    cp -r ${GIS_SCRIPT_ROOT}/config ${GIS_INSTALL_PATH}/log
+  fi
   if compgen -G "${GIS_BUILD_PATH}/*.log" > /dev/null; then
     cp ${GIS_BUILD_PATH}/*.log ${GIS_INSTALL_PATH}/log
   fi

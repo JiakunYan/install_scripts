@@ -25,10 +25,15 @@ if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == *"pcounter"* ]]; then
   LCI_USE_PERFORMANCE_COUNTER=ON
   echo "Explicitly enable the performance counter"
 fi
+if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == *"safeprog"* ]]; then
+  CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} \
+  -DLCI_ENABLE_MULTITHREAD_PROGRESS=ON"
+  echo "Explicitly enable thread-safe progress function"
+fi
 if [ "$(get_platform_name)" == "ookami" ]; then
   CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} \
   -DLCI_OPTIMIZE_FOR_NATIVE=OFF \
-  -DLCI_CACHE_SIZE=256"
+  -DLCI_CACHE_LINE=256"
 fi
 run_cmake_configure \
     -DLCI_SERVER=${GIS_COMM_BACKEND} \

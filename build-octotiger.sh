@@ -14,6 +14,17 @@ if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == *"kokkos"* ]]; then
     -DOCTOTIGER_KOKKOS_SIMD_LIBRARY=STD \
     -DOCTOTIGER_KOKKOS_SIMD_EXTENSION=SVE"
 fi
+
+# Use a regular expression to find the integer following "griddim"
+regex='griddim([0-9]+)'
+if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" =~ $regex ]]; then
+    # If the regex matched, print the integer
+    griddim=${BASH_REMATCH[1]}
+    CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} \
+        -DOCTOTIGER_WITH_GRIDDIM=${griddim} \
+        -DOCTOTIGER_WITH_TESTS=OFF"
+fi
+
 load_module
 
 export GIS_DOWNLOAD_URL="https://github.com/STEllAR-GROUP/octotiger.git"
