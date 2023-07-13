@@ -10,7 +10,7 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
     "jemalloc/5.3.0"
     "boost/1.71.0" # Provided by Ookami
     "hwloc/2.8.0" # Provided by Ookami
-    "openmpi/gcc11.2/4.1.2" # Provided by Ookami
+    "openmpi/gcc12.2.0/4.1.5" # Provided by Ookami
     "mpich/4.0.2"
     "Vc/1.4.3"
     "papi/6.0.0" # Provided by Ookami

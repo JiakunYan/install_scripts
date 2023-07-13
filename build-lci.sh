@@ -30,6 +30,11 @@ if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == *"safeprog"* ]]; then
   -DLCI_ENABLE_MULTITHREAD_PROGRESS=ON"
   echo "Explicitly enable thread-safe progress function"
 fi
+if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == *"safequeue"* ]]; then
+  CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} \
+  -DLCI_USE_MUTEX_CQ=ON"
+  echo "Explicitly enable mutex lock based queue"
+fi
 if [ "$(get_platform_name)" == "ookami" ]; then
   CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} \
   -DLCI_OPTIMIZE_FOR_NATIVE=OFF \

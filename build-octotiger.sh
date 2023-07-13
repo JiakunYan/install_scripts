@@ -2,7 +2,7 @@
 
 source include/common.sh
 
-export GIS_PACKAGE_DEPS=("cmake" "Vc" "hpx" "silo" "cppuddle")
+export GIS_PACKAGE_DEPS=("cmake" "Vc" "silo")
 export GIS_PACKAGE_NAME_MAJOR=octotiger
 setup_env "$@"
 if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == *"kokkos"* ]]; then
@@ -15,14 +15,39 @@ if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == *"kokkos"* ]]; then
     -DOCTOTIGER_KOKKOS_SIMD_EXTENSION=SVE"
 fi
 
+hpx_to_load="hpx"
+cppuddle_to_load="cppuddle"
+if [ "${GIS_BUILD_TYPE}" == "debug" ]; then
+  hpx_to_load="hpx/local-debug"
+  cppuddle_to_load="cppuddle/master-debug"
+fi
+if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" == *"apex"* ]]; then
+  echo "Build Octo-Tiger with HPX APEX"
+  hpx_to_load="hpx/local-release-apex"
+fi
+GIS_PACKAGE_DEPS+=("${hpx_to_load}" "${cppuddle_to_load}")
+
 # Use a regular expression to find the integer following "griddim"
 regex='griddim([0-9]+)'
 if [[ "${GIS_PACKAGE_NAME_MINOR_EXTRA}" =~ $regex ]]; then
-    # If the regex matched, print the integer
-    griddim=${BASH_REMATCH[1]}
+  griddim=${BASH_REMATCH[1]}
+  CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} \
+      -DOCTOTIGER_WITH_GRIDDIM=${griddim} \
+      -DOCTOTIGER_WITH_TESTS=OFF"
+
+  if [ "${griddim}" == "4" ]; then
     CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} \
-        -DOCTOTIGER_WITH_GRIDDIM=${griddim} \
-        -DOCTOTIGER_WITH_TESTS=OFF"
+        -DOCTOTIGER_THETA_MINIMUM=0.51"
+  elif [ "${griddim}" == "3" ]; then
+    CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} \
+        -DOCTOTIGER_THETA_MINIMUM=0.51"
+  elif [ "${griddim}" == "2" ]; then
+    CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} \
+        -DOCTOTIGER_THETA_MINIMUM=1.01"
+  elif [ "${griddim}" == "1" ]; then
+    CONFIG_EXTRA_ARGS="${CONFIG_EXTRA_ARGS} \
+        -DOCTOTIGER_THETA_MINIMUM=1.01"
+  fi
 fi
 
 load_module
@@ -62,6 +87,7 @@ run_cmake_configure \
     -DOCTOTIGER_WITH_STD_EXPERIMENTAL_SIMD=OFF \
     -DOCTOTIGER_ARCH_FLAG="${OCTOTIGER_ARCH_FLAG}" \
     -DSilo_DIR=$SILO_ROOT \
+    -DOCTOTIGER_WITH_TESTS=OFF \
     ${CONFIG_EXTRA_ARGS}
 
 run_cmake_build

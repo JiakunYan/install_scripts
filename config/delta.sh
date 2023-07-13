@@ -8,10 +8,11 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
     "cmake/3.23.1" # Provided by Delta
     "ninja/1.11.1"
     "jemalloc/5.3.0"
-    "boost/1.80.0" # Provided by Delta
+    "boost/1.82.0"
     "hwloc/2.7.1"
     "Vc/1.4.3"
     "papi/7.0.0"
+    "libfabric/1.18.1"
     "openmpi/4.1.4"
     "hdf5/1.10.7" # Provided by Delta
     "silo/4.11"
@@ -25,7 +26,7 @@ export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
 export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
 
 export GIS_PARALLEL_BUILD=16
-export GIS_COMM_BACKEND=ibv
+export GIS_COMM_BACKEND=ofi
 export GIS_WITH_CUDA=OFF
 
 export CC=gcc

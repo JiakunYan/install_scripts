@@ -16,9 +16,9 @@ if [ ${GIS_BUILD_TYPE} == "release" ]; then
   RELEASE_EXTRA_ARGS="--enable-optimization"
 fi
 sed -i 's/-lhdf5/$hdf5_lib\/libhdf5.a -ldl/g' ${GIS_SRC_PATH}/configure
-if [ "$(get_platform_name)" == "expanse" ] && [ "$(get_dep_minor_default "hdf5")" == "1.10.7" ]; then
-  HDF5_ROOT=$HDF5HOME
-fi
+#if [ "$(get_platform_name)" == "expanse" ] && [ "$(get_dep_minor_default "hdf5")" == "1.10.7" ]; then
+#  HDF5_ROOT=/cm/shared/apps/spack/0.17.3/cpu/b/opt/spack/linux-rocky8-zen2/gcc-10.2.0/hdf5-1.10.7-xexa2gll6hf6okdatgrxiwhcjs2uepc7/
+#fi
 if [ "$(get_platform_name)" == "ookami" ] && [ "$(get_dep_minor_default "hdf5")" == "1.10.1" ]; then
   HDF5_ROOT=${HDF5DIR}/..
 fi
