@@ -30,7 +30,7 @@ export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
 export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
 export GIS_MPICH_LOCAL_SRC_PATH=~/workspace/mpich
 
-export GIS_PARALLEL_BUILD=4
+export GIS_PARALLEL_BUILD=8
 export GIS_COMM_BACKEND=ofi
 export GIS_WITH_CUDA=OFF
 

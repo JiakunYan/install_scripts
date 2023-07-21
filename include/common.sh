@@ -12,6 +12,8 @@ get_platform_name() {
     echo "rostam"
   elif [[ "${HOSTNAME}" =~ "delta.internal.ncsa.edu" ]]; then
     echo "delta"
+  elif [[ "${HOSTNAME}" =~ "jlse" ]]; then
+    echo "jlse"
   else
     echo "pc"
   fi
