@@ -17,17 +17,13 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
     "papi/7.0.0"
     "hdf5/1.8.12" # Provided by Expanse
     "silo/4.11"
-    "lci/local"
-    "hpx/local"
+    "lci/pawatm23"
+    "hpx/pawatm23"
     "cppuddle/master"
-    "octotiger/local"
+    "octotiger/master"
     "ucx/1.14.0"
 )
 export GIS_DEFAULT_PACKAGES="${GIS_DEFAULT_PACKAGE_ARRAY[*]}"
-export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
-export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
-export GIS_LIBIBVERBS_LOCAL_SRC_PATH=~/workspace/rdma-core
-export GIS_OCTOTIGER_LOCAL_SRC_PATH=~/workspace/octotiger
 
 export GIS_PARALLEL_BUILD=16
 export GIS_COMM_BACKEND=ibv

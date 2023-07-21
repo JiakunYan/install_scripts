@@ -6,14 +6,8 @@ get_platform_name() {
     echo ${GIS_PLATFORM}
   elif [ "${CMD_WLM_CLUSTER_NAME}" == "expanse" ]; then
     echo "expanse"
-  elif [ "${LMOD_SYSTEM_NAME}" == "perlmutter" ]; then
-    echo "perlmutter"
   elif [[ "${HOSTNAME}" =~ "rostam" ]]; then
     echo "rostam"
-  elif [[ "${HOSTNAME}" =~ "delta.internal.ncsa.edu" ]]; then
-    echo "delta"
-  elif [[ "${HOSTNAME}" =~ "jlse" ]]; then
-    echo "jlse"
   else
     echo "pc"
   fi
