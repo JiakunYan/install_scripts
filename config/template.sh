@@ -3,7 +3,7 @@
 # Where to install all the packages
 export GIS_INSTALL_ROOT=~/opt
 # Default modules to load for all packages
-export GIS_PRELOAD_PACKAGES="DefaultModules gcc/10.2.0"
+export GIS_PRELOAD_PACKAGES=""
 # Default version of all packages
 GIS_DEFAULT_PACKAGE_ARRAY=(
     "cmake/3.23.4"
@@ -16,12 +16,12 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
     "mpich/4.0.2"
     "Vc/1.4.3"
     "papi/7.0.0"
-    "hdf5/1.8.12" # Provided by Expanse
+    "hdf5/1.8.12"
     "silo/4.11"
-    "lci/lct"
-    "hpx/hpx-lci"
+    "lci/pawatm23"
+    "hpx/pawatm23"
     "cppuddle/master"
-    "octotiger/master"
+    "octotiger/pawatm23"
     "ucx/1.14.0"
 )
 export GIS_DEFAULT_PACKAGES="${GIS_DEFAULT_PACKAGE_ARRAY[*]}"
