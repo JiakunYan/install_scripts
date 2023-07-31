@@ -23,7 +23,7 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
     "octotiger/master-debug"
     "pmix/4.2.2"
     "prrte/3.0.0"
-    "ucx/1.14.0"
+    "ucx/1.14.0-debug"
 )
 export GIS_DEFAULT_PACKAGES="${GIS_DEFAULT_PACKAGE_ARRAY[*]}"
 export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC

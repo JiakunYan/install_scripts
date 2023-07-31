@@ -22,7 +22,11 @@ if [ ! -f ${GIS_SRC_PATH}/configure ]; then
   cd ${GIS_SRC_PATH} || exit
   ${GIS_SRC_PATH}/autogen.sh
 fi
-run_configure
+ENABLE_MT=yes
+if [[ ${GIS_PACKAGE_NAME_MINOR_EXTRA} == *"st"* ]]; then
+  ENABLE_MT=no
+fi
+run_configure --enable-mt=${ENABLE_MT}
 run_make
 
 cp_log

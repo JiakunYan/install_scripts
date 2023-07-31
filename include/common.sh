@@ -12,7 +12,7 @@ get_platform_name() {
     echo "rostam"
   elif [[ "${HOSTNAME}" =~ "delta.internal.ncsa.edu" ]]; then
     echo "delta"
-  elif [[ "${HOSTNAME}" =~ "jlse" ]]; then
+  elif [[ "${HOSTNAME}" =~ "jlse" ]] ; then
     echo "jlse"
   else
     echo "pc"
@@ -224,13 +224,16 @@ run_configure() {
   GIS_CONFIGURE_EXE=${GIS_CONFIGURE_EXE:-configure}
   if [ ! -f "${GIS_CONFIGURE_PATH}/${GIS_CONFIGURE_EXE}" ]; then
     GIS_AUTOGEN_PATH=${GIS_AUTOGEN_PATH:-${GIS_CONFIGURE_PATH}}
-    ${GIS_AUTOGEN_PATH}/autogen.sh
+    GIS_AUTOGEN_EXE=${GIS_AUTOGEN_EXE:-autogen.sh}
+    cd ${GIS_SRC_PATH} || exit 1
+    ${GIS_AUTOGEN_PATH}/${GIS_AUTOGEN_EXE}
+    cd ${GIS_BUILD_PATH} || exit 1
   fi
   if [ ${GIS_BUILD_TYPE} == "debug" ]; then
-     CC=${CC} CXX=${CXX} CPPFLAGS="${CPPFLAGS} -DDEBUG" CFLAGS="${CFLAGS} -g -O0" CXXFLAGS="${CXXFLAGS} -g -O0" ${GIS_CONFIGURE_PATH}/${GIS_CONFIGURE_EXE} --prefix=${GIS_INSTALL_PATH} --enable-debug \
+     CC=${CC} CXX=${CXX} CPPFLAGS="${CPPFLAGS}" CFLAGS="${CFLAGS} -g -O0" CXXFLAGS="${CXXFLAGS} -g -O0" ${GIS_CONFIGURE_PATH}/${GIS_CONFIGURE_EXE} --prefix=${GIS_INSTALL_PATH} --enable-debug \
                           ${GIS_CONFIGURE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
   elif [ ${GIS_BUILD_TYPE} == "release" ]; then
-     CC=${CC} CXX=${CXX} CPPFLAGS="${CPPFLAGS} -DNDEBUG" CFLAGS="${CFLAGS} -O3" CXXFLAGS="${CXXFLAGS} -O3" ${GIS_CONFIGURE_PATH}/${GIS_CONFIGURE_EXE} --prefix=${GIS_INSTALL_PATH} \
+     CC=${CC} CXX=${CXX} CPPFLAGS="${CPPFLAGS}" CFLAGS="${CFLAGS} -O3" CXXFLAGS="${CXXFLAGS} -O3" ${GIS_CONFIGURE_PATH}/${GIS_CONFIGURE_EXE} --prefix=${GIS_INSTALL_PATH} \
                           ${GIS_CONFIGURE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
   else
     echo "Unrecognized GIS_BUILD_TYPE: ${GIS_BUILD_TYPE}!"

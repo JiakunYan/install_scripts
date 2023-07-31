@@ -16,12 +16,12 @@ export GIS_DOWNLOAD_URL="https://www.mpich.org/static/downloads/${GIS_PACKAGE_VE
 wget_url
 
 if [ ${GIS_BUILD_TYPE} == "debug" ]; then
-  CONFIG_EXTRA_ARGS+=" --enable-g=debug --enable-fast=O0"
+  CONFIG_EXTRA_ARGS+=" --enable-g=dbg --enable-fast=O0"
 fi
 if [[ ${GIS_PACKAGE_NAME_MINOR_EXTRA} == *"global"* ]]; then
   CONFIG_EXTRA_ARGS+=" --enable-thread-cs=global"
 fi
-run_configure --disable-fortran --with-device=ch4:ucx ${CONFIG_EXTRA_ARGS}
+run_configure --disable-fortran --disable-romio --with-device=ch4:ucx ${CONFIG_EXTRA_ARGS}
 run_make
 
 cp_log
