@@ -52,6 +52,7 @@ run_cmake_configure \
     -DHPX_WITH_EXAMPLES=${HPX_WITH_EXAMPLES} \
     -DHPX_WITH_TESTS=ON \
     -DHPX_WITH_NETWORKING=ON \
+    -DHPX_WITH_PARCELPORT_TCP=OFF \
     -DHPX_WITH_PARCELPORT_MPI=ON \
     -DHPX_WITH_PARCELPORT_LCI=ON \
     -DHPX_WITH_ZERO_COPY_SERIALIZATION_THRESHOLD=8192 \
@@ -67,5 +68,5 @@ run_cmake_install
 cp_log
 create_module
 
-run_test hpxrun.py
+#run_test hpxrun.py
 

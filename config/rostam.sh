@@ -10,7 +10,7 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
     "jemalloc/5.3.0"
     "libfabric/1.15.1"
     "boost/1.75.0-release"
-    "hwloc/2.7.1"
+    "hwloc/2.9.1"          # Provided by Rostam
     "openmpi/4.1.5"          # Provided by Rostam
     "mpich/4.0.2"
     "Vc/1.4.3"
@@ -20,12 +20,13 @@ GIS_DEFAULT_PACKAGE_ARRAY=(
     "lci/local"
     "hpx/local"
     "cppuddle/master"
-    "octotiger/master"
+    "octotiger/local"
     "ucx/1.14.0"
 )
 export GIS_DEFAULT_PACKAGES="${GIS_DEFAULT_PACKAGE_ARRAY[*]}"
 export GIS_LCI_LOCAL_SRC_PATH=~/workspace/LC
 export GIS_HPX_LOCAL_SRC_PATH=~/workspace/hpx
+export GIS_OCTOTIGER_LOCAL_SRC_PATH=~/workspace/octotiger
 export GIS_LIBIBVERBS_LOCAL_SRC_PATH=~/workspace/rdma-core
 
 export GIS_PARALLEL_BUILD=16

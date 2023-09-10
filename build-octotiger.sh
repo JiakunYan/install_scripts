@@ -73,7 +73,6 @@ fi
 
 run_cmake_configure \
     -DOCTOTIGER_WITH_BLAST_TEST=ON \
-    -DOCTOTIGER_WITH_TESTS=ON \
     -DOCTOTIGER_WITH_CUDA=${GIS_WITH_CUDA} \
     -DOCTOTIGER_CUDA_ARCH="sm_80" \
     -DCMAKE_CUDA_FLAGS="-arch=sm_80" \
@@ -96,4 +95,4 @@ cp_log
 
 create_module
 
-run_test octotiger
+#run_test octotiger

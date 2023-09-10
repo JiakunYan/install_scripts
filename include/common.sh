@@ -14,6 +14,8 @@ get_platform_name() {
     echo "delta"
   elif [[ "${HOSTNAME}" =~ "jlse" ]] ; then
     echo "jlse"
+  elif [[ "${HOSTNAME}" =~ "campuscluster.illinois.edu" ]] ; then
+    echo "icc"
   else
     echo "pc"
   fi
@@ -234,6 +236,9 @@ run_configure() {
                           ${GIS_CONFIGURE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
   elif [ ${GIS_BUILD_TYPE} == "release" ]; then
      CC=${CC} CXX=${CXX} CPPFLAGS="${CPPFLAGS}" CFLAGS="${CFLAGS} -O3" CXXFLAGS="${CXXFLAGS} -O3" ${GIS_CONFIGURE_PATH}/${GIS_CONFIGURE_EXE} --prefix=${GIS_INSTALL_PATH} \
+                          ${GIS_CONFIGURE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
+  elif [ ${GIS_BUILD_TYPE} == "relWithDebInfo" ]; then
+     CC=${CC} CXX=${CXX} CPPFLAGS="${CPPFLAGS}" CFLAGS="${CFLAGS} -g -O2" CXXFLAGS="${CXXFLAGS} -g -O2" ${GIS_CONFIGURE_PATH}/${GIS_CONFIGURE_EXE} --prefix=${GIS_INSTALL_PATH} \
                           ${GIS_CONFIGURE_EXTRA_ARGS} "$@" | tee ${GIS_BUILD_PATH}/configure.log 2>&1
   else
     echo "Unrecognized GIS_BUILD_TYPE: ${GIS_BUILD_TYPE}!"
