@@ -2,6 +2,7 @@
 
 source include/common.sh
 
+export GIS_PACKAGE_DEPS=("hwloc")
 export GIS_PACKAGE_NAME_MAJOR=pmix
 setup_env "$@"
 load_module
